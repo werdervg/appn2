@@ -9,7 +9,7 @@ agent none
 				label 'master'
 			}
             steps {
-				git url: 'https://github.com/werdervg/job1.git'
+				checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/werdervg/job1.git']]])
             }
         }
         stage('Building on master') {
