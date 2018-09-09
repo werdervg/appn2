@@ -6,6 +6,7 @@ agent none
 			node {
 				label 'master'
 			}
+		}
             steps {
 				git url: 'https://github.com/werdervg/job1.git'
             }
