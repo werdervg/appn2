@@ -8,7 +8,7 @@ agent none
 			}
 		}
             steps {
-				git url: 'https://github.com/werdervg/job1.git'
+				git branch: 'master',url: 'https://github.com/werdervg/job1.git'
 				sh 'echo "Start building.."'
 				sh 'chmod +x job1.sh'
 				sh './job1.sh'
@@ -20,14 +20,7 @@ agent none
 				label 'slave'
 			}
             steps {
-				git url: 'https://github.com/werdervg/job2.git'
-            }
-        }
-        stage('Building on slave') {
-			agent {
-				label 'slave'
-			}
-            steps {
+				git branch: 'master',url: 'https://github.com/werdervg/job2.git'
                 sh 'echo "Start building.."'
 				sh 'chmod +x job2.sh'
 				sh './job2.sh'
