@@ -11,7 +11,8 @@ agent {
         stage('Building..') {
             steps {
                 sh 'echo "Start building.."'
-				sh 'job1.sh'
+				sh 'chmod +x job1.sh'
+				sh './job1.sh'
             }
         }
     }
