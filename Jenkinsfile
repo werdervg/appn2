@@ -8,6 +8,11 @@ pipeline {
 					git url: 'https://github.com/werdervg/job1.git'
 				}
 		}
+		stage('Clone job 2') {
+				steps {
+					git url: 'https://github.com/werdervg/job2.git'
+				}
+		}
 //		stage('Push') {
 //				steps {
 //					
