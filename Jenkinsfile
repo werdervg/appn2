@@ -1,7 +1,9 @@
 def code
 
 pipeline {
-
+			    agent {
+					any
+				}
 		stages {
 			stage('Clone job 1') {
 			    agent {
