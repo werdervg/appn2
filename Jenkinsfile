@@ -8,6 +8,9 @@ agent any
 				steps {
 					git url: 'https://github.com/werdervg/job1.git'
 				}
+				steps {
+					sh './job1.sh'
+				}
 			}
 		}
 }
