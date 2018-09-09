@@ -13,11 +13,5 @@ pipeline {
 					git url: 'https://github.com/werdervg/job2.git'
 				}
 		}
-//		stage('Push') {
-//				steps {
-//					
-//					sh 'echo 1111111Mastersss > master-file-job.txt'
-//				}
-//		}
 	}
 }
