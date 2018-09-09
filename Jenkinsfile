@@ -17,3 +17,22 @@ agent {
         }
     }
 }
+pipeline {
+agent {
+	label 'slave'
+}
+    stages {
+        stage('Clone job 2') {
+            steps {
+				git url: 'https://github.com/werdervg/job2.git'
+            }
+        }
+        stage('Building..') {
+            steps {
+                sh 'echo "Start building.."'
+				sh 'chmod +x job2.sh'
+				sh './job2.sh'
+            }
+        }
+    }
+}
