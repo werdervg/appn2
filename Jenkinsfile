@@ -2,7 +2,7 @@ def code
 
 pipeline {
 			    agent {
-					any
+					label 'any'
 				}
 		stages {
 			stage('Clone job 1') {
