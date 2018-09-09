@@ -13,10 +13,10 @@ pipeline {
 			stage('Load') {
 					steps {
 						code = load 'example.groovy'
-					}		
+					}	
+			}
 			stage('Execute') {
 					code.example1()
-			}
 			}
 		}
 	}
