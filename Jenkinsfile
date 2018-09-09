@@ -1,7 +1,6 @@
 pipeline {
 agent none
 
-
     stages {
 
         stage('Clone job 1') {
@@ -9,7 +8,7 @@ agent none
 				label 'master'
 			}
             steps {
-				checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/werdervg/job1.git']]])
+				sh 'git clone https://github.com/werdervg/job1.git'
             }
         }
         stage('Building on master') {
@@ -19,7 +18,7 @@ agent none
             steps {
                 sh 'echo "Start building.."'
 				sh 'chmod +x job1.sh'
-				sh './job1.sh'
+				sh './job1/job1.sh'
             }
         }
         stage('Clone job 2') {
