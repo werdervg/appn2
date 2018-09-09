@@ -12,7 +12,7 @@ agent none
 				git url: 'https://github.com/werdervg/job1.git'
             }
         }
-        stage('Building..') {
+        stage('Building on master') {
 			agent {
 				label 'master'
 			}
@@ -30,7 +30,7 @@ agent none
 				git url: 'https://github.com/werdervg/job2.git'
             }
         }
-        stage('Building..') {
+        stage('Building on slave') {
 			agent {
 				label 'slave'
 			}
