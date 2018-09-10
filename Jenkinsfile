@@ -10,8 +10,7 @@ agent none
             steps {
 				git branch: 'master',url: 'https://github.com/werdervg/job1.git'
 				sh 'echo "Start building.."'
-				sh 'chmod +x job1.sh'
-				sh './job1.sh'
+				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \; -exec {} \;'
             }
         }
 
@@ -22,8 +21,7 @@ agent none
             steps {
 				git branch: 'master',url: 'https://github.com/werdervg/job2.git'
                 sh 'echo "Start building.."'
-				sh 'chmod +x job2.sh'
-				sh './job2.sh'
+				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \; -exec {} \;'
             }
         }
     }
