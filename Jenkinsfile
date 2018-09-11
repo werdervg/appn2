@@ -8,7 +8,7 @@ agent none
 			}
 		}
             steps {
-				git branch: 'master',url: 'https://github.com/werdervg/job1.git'
+				git branch: 'master',credentialsId: '1c706a499a4536bc6490de06cc3b119013be0c79',url: 'https://github.com/werdervg/job1.git' 
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
@@ -19,7 +19,7 @@ agent none
 				label 'slave'
 			}
             steps {
-				git branch: 'master',url: 'https://github.com/werdervg/job2.git'
+				git branch: 'master',credentialsId: '1c706a499a4536bc6490de06cc3b119013be0c79',url: 'https://github.com/werdervg/job2.git'
                 sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
