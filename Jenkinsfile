@@ -24,7 +24,16 @@ agent none
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
+        stage('ForTests') {
+			agent {
+				label 'slave'
+			}
+            steps {
+				build("ForTests")
+            }
+        }
     }
 }
 
 
+                        
