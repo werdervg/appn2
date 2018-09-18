@@ -1,23 +1,3 @@
-node('master') {
-	post { 
-		success{
-		sh 'echo "success"'
-		}
-		failure {
-		sh 'echo "failure"'
-		}
-    }
-}
-node('slave') {
-	post { 
-		success{
-		sh 'echo "success"'
-		}
-		failure {
-		sh 'echo "failure"'
-		}
-    }
-}
 pipeline {
 agent none
   parameters {
@@ -66,5 +46,15 @@ agent none
 			}
 		}
 	}
+post { 
+	success {
+		node('master') {
+		            deleteDir()
 
+		}
+	failure {
+			sh 'echo "failure"'
+	}
+	}
+}
 }
