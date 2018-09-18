@@ -47,8 +47,14 @@ agent none
 		}
 	}
 	post { 
-    cleanup{
-        deleteDir()
-    }
+		always {
+		sh 'echo "Finish"'
+		}
+		success{
+		sh 'echo "success"'
+		}
+		failure {
+		sh 'echo "failure"'
+		}
     }
 }
