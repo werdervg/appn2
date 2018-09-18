@@ -52,9 +52,6 @@ post {
 		            deleteDir()
 
 		}
-	failure {
-			sh 'echo "failure"'
-	}
 	}
 }
 }
