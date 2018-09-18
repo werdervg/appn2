@@ -1,7 +1,13 @@
 pipeline {
 agent none
+  parameters {
+    choice(
+        name: 'myParameter',
+        choices: "Option1\Option2",
+        description: 'interesting stuff' )
+  }
     stages {
-	if (env.PARAM_TEST == "Select1") { 
+	if (env.myParameter == "Option1") { 
         stage('Clone job 1') {
 		agent {
 			node {
