@@ -14,8 +14,10 @@ agent none
 				label 'master'
 			}
 		}
+            when {
+                expression { params.myParameter == 'Option1' }
+            }
             steps {
-			if ("${params.myParameter}" == "Option1")
 				git branch: 'master',credentialsId: '123123123',url: 'https://werdervg@github.com/werdervg/job1.git' 
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
@@ -26,8 +28,10 @@ agent none
 			agent {
 				label 'slave'
 			}
+            when {
+                expression { params.myParameter == 'Option2' }
+            }
             steps {
-			if ("${params.myParameter}" == "Option2")
 				git branch: 'master',credentialsId: '123123123',url: 'https://werdervg@github.com/werdervg/job2.git'
                 sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
