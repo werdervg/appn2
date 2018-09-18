@@ -3,7 +3,7 @@ agent none
   parameters {
     choice(
         name: 'myParameter',
-        choices: "Option1\Option2",
+        choices: "Option1\nOption2",
         description: 'interesting stuff' )
   }
     stages {
