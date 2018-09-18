@@ -47,9 +47,6 @@ agent none
 		}
 	}
 	post { 
-		always {
-		sh 'echo "Finish"'
-		}
 		success{
 		sh 'echo "success"'
 		}
