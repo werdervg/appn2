@@ -47,8 +47,6 @@ agent none
 		}
 	}
 	post { 
-        always { 
-            cleanWs()
-        }
+        cleanWs()
     }
 }
