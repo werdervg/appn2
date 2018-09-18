@@ -50,8 +50,11 @@ post {
 	success {
 		node('master') {
 		            deleteDir()
-
+		}
+		node('slave') {
+		            deleteDir()
 		}
 	}
+
 }
 }
