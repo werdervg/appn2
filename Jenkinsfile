@@ -5,7 +5,7 @@ agent none
         name: 'myParameter',
         choices: "Option1\nOption2",
         description: 'interesting stuff' )
-  }
+	}
     stages {
 	
         stage('Clone job 1') {
@@ -37,13 +37,13 @@ agent none
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
-		}
         stage('ForTests') {
 			agent {
 				label 'slave'
 			}
             steps {
 				build("ForTests")
-        }
-    }
+			}
+		}
+	}
 }
