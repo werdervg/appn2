@@ -47,6 +47,8 @@ agent none
 		}
 	}
 	post { 
-        cleanWs()
+    cleanup{
+        deleteDir()
+    }
     }
 }
