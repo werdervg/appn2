@@ -49,10 +49,16 @@ agent none
 post { 
 	success {
 		node('master') {
-		            deleteDir()
+            when {
+                expression { params.myParameter == 'Option1' }
+            }
+			deleteDir()
 		}
 		node('slave') {
-		            deleteDir()
+            when {
+                expression { params.myParameter == 'Option2' }
+            }
+			deleteDir()
 		}
 	}
 
