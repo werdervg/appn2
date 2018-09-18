@@ -1,6 +1,7 @@
 pipeline {
 agent none
     stages {
+	if (env.PARAM_TEST == "Select1") { 
         stage('Clone job 1') {
 		agent {
 			node {
@@ -13,7 +14,8 @@ agent none
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
-
+	}
+	else {
         stage('Clone job 2') {
 			agent {
 				label 'slave'
@@ -24,6 +26,7 @@ agent none
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
+		}
         stage('ForTests') {
 			agent {
 				label 'slave'
