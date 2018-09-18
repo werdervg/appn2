@@ -46,4 +46,9 @@ agent none
 			}
 		}
 	}
+	post { 
+        always { 
+            cleanWs()
+        }
+    }
 }
