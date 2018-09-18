@@ -7,7 +7,7 @@ agent none
         description: 'interesting stuff' )
   }
     stages {
-	if (env.myParameter == "Option1") { 
+	if ${params.myParameter}='Option1' { 
         stage('Clone job 1') {
 		agent {
 			node {
