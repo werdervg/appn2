@@ -23,12 +23,12 @@ agent none
         description: 'interesting stuff' )
 	}
     stages {
-		stage('If not select any parameters do exit') {
-		    if(!continueBuild) {
-		expression { params.myParameter == 'NULL' }
-
-			// What do I put here? currentBuild.xxx ?
-		}
+		stage("Check Preconditions") {
+			if(continueBuild == false) {
+			params.myParameter = 'NULL'
+			return
+										}
+			}
 		}
         stage('Clone job 1') {
 		agent {
