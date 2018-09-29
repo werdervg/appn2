@@ -1,6 +1,4 @@
 GITHUB_PROJECT = "https://github.com/werdervg/start.git"
-GITHUB_CREDENTIALS_ID = "werdervg"
-APPLICATION_NAME = "BKbqAhPfMOTInQ3fs1hi"
 GITHUB_BRANCH = '${env.BRANCH_NAME}'
 node{
     stage ("Listing Branches") 
