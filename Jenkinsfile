@@ -1,25 +1,26 @@
-GITHUB_PROJECT = "https://github.com/werdervg/start.git"
-GITHUB_BRANCH = '${env.BRANCH_NAME}'
+GITHUB_PIPELINE = "https://github.com/werdervg/start.git"
+GITHUB_JOB1 = "https://github.com/werdervg/job1.git"
+GITHUB_JOB2 = "https://github.com/werdervg/job2.git"
 node{
     stage ("Listing Branches") 
       {
            echo "Initializing workflow"
-            echo GITHUB_PROJECT
-           git url: GITHUB_PROJECT
+            echo GITHUB_PIPELINE
+			git url: GITHUB_PIPELINE
             sh 'git branch -r | awk \'{print $1}\' >branches.txt'
             sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
 			sh 'sed -i \'1iNONE\' branch.txt'
             sh 'cat branch.txt'
-			liste = readFile 'branch.txt'
+			BRANCH_NAME = readFile 'branch.txt'
         }
 }
 pipeline {
 agent none
   parameters {
     choice(
-        name: 'myParameter',
-        choices: "${liste}",
-        description: 'interesting stuff' )
+        name: 'BRANCHNAME',
+        choices: "${BRANCH_NAME}",
+        description: 'On this step you need select Branch for build' )
 	}
    stages {
        stage('Check Preconditions') {
@@ -29,7 +30,7 @@ agent none
 			}
 		}
            when {
-               expression { params.myParameter == 'NONE' }
+               expression { params.BRANCHNAME == 'NONE' }
            }
            steps {
 			sh 'echo "No parameters"'
@@ -40,10 +41,10 @@ agent none
 				label 'slave'
 			}
             when {
-                expression { params.myParameter == 'develop' }
+                expression { params.BRANCHNAME == 'develop' }
             }
             steps {
-				git branch: "$myParameter",url: 'https://werdervg@github.com/werdervg/job2.git'
+				git branch: "$BRANCHNAME",url: GITHUB_JOB2
                 sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
@@ -55,10 +56,10 @@ agent none
 			}
 		}
             when {
-                expression { params.myParameter == 'master' }
+                expression { params.BRANCHNAME == 'master' }
             }
             steps {
-				git branch: "$myParameter",url: 'https://werdervg@github.com/werdervg/job1.git' 
+				git branch: "$BRANCHNAME",url: GITHUB_JOB1
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
