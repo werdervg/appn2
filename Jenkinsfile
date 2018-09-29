@@ -6,7 +6,8 @@ node{
            echo "Initializing workflow"
             echo GITHUB_JOB
 			git url: GITHUB_JOB
-            sh 'git branch -r | awk \'{print $1}\' | cut -d \'/\' -f 2 >branch.txt && sed -i \'1iNONE\' branch.txt'
+            sh 'git branch -r | awk \'{print $1}\' | cut -d \'/\' -f 2 >branch.txt'
+//			&& sed -i \'1iNONE\' branch.txt'
             sh 'cat branch.txt'
 			BRANCH_NAME = readFile 'branch.txt'
         }
@@ -19,21 +20,6 @@ node{
         }
 	stage('get build commits_ Parameter User Input') 
 		{
-		           when {
-               expression { params.BRANCHNAME == 'NONE' }
-           }
-		   			sh 'echo "No parameters"'
-
-			liste = readFile "commits_${BRANCH_NAME}.txt"
-			echo "please click on the link here to chose the commits_ to build"
-			input message: 'Please choose the commits_ to build ', ok: 'Validate!',
-			parameters: [choice(name: 'COMMIN_NUMBER', choices: "${liste}", description: 'commit to build?')]
-		}
-	stage('get build commits_ Parameter User Input') 
-		{
-		           when {
-               expression { params.BRANCHNAME <> 'NONE' }
-           }
 			liste = readFile "commits_${BRANCH_NAME}.txt"
 			echo "please click on the link here to chose the commits_ to build"
 			input message: 'Please choose the commits_ to build ', ok: 'Validate!',
