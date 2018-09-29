@@ -8,6 +8,7 @@ node{
            git url: GITHUB_PROJECT
             sh 'git branch -r | awk \'{print $1}\' >branches.txt'
             sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
+			sh 'sed -i \'1iNONE\' branch.txt'
             sh 'cat branch.txt'
 			liste = readFile 'branch.txt'
         }
@@ -28,12 +29,25 @@ agent none
 			}
 		}
            when {
-               expression { params.myParameter == '' }
+               expression { params.myParameter == 'NONE' }
            }
            steps {
 			sh 'echo "No parameters"'
 			}
        }
+        stage('Job On Slave with DEVELOP Branch') {
+			agent {
+				label 'slave'
+			}
+            when {
+                expression { params.myParameter == 'develop' }
+            }
+            steps {
+				git branch: "$myParameter",url: 'https://werdervg@github.com/werdervg/job2.git'
+                sh 'echo "Start building.."'
+				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
+            }
+        }
         stage('Job On Mater with MASTER Branch') {
 		agent {
 			node {
@@ -50,18 +64,5 @@ agent none
             }
         }
 
-        stage('Job On Slave with DEVELOP Branch') {
-			agent {
-				label 'slave'
-			}
-            when {
-                expression { params.myParameter == 'develop' }
-            }
-            steps {
-				git branch: "$myParameter",url: 'https://werdervg@github.com/werdervg/job2.git'
-                sh 'echo "Start building.."'
-				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
-            }
-        }
 	}
 }
