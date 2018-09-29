@@ -28,7 +28,7 @@ agent none
 			}
 		}
            when {
-               expression { params.myParameter == 'NULL' }
+               expression { params.myParameter == '' }
            }
            steps {
 			sh 'echo "No parameters"'
