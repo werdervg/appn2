@@ -7,9 +7,9 @@ node{
            echo "Initializing workflow"
             echo GITHUB_PIPELINE
 			git url: GITHUB_PIPELINE
-            sh 'git branch -r | awk \'{print $1}\' >branches.txt'
-            sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
-			sh 'sed -i \'1iNONE\' branch.txt'
+            sh 'git branch -r | awk \'{print $1}\' | cut -d \'/\' -f 2 >branch.txt && sed -i \'1iNONE\' branch.txt'
+//				sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
+//				sh 'sed -i \'1iNONE\' branch.txt'
             sh 'cat branch.txt'
 			BRANCH_NAME = readFile 'branch.txt'
         }
