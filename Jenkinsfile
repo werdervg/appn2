@@ -30,7 +30,7 @@ agent none
         description: 'Commit' )
 	}
    stages {
-stage(‘get build branch Parameter User Input’) {
+stage('get build branch Parameter User Input') {
 
 liste = readFile 'commits_$BRANCH_NAME.txt'
 echo "please click on the link here to chose the branch to build"
