@@ -33,7 +33,7 @@ agent none
                 expression { params.myParameter == 'master' }
             }
             steps {
-				git branch: '$params.myParameter',url: 'https://werdervg@github.com/werdervg/job1.git' 
+				git branch: $params.myParameter,url: 'https://werdervg@github.com/werdervg/job1.git' 
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
@@ -47,7 +47,7 @@ agent none
                 expression { params.myParameter == 'develop' }
             }
             steps {
-				git branch: '$params.myParameter',url: 'https://werdervg@github.com/werdervg/job2.git'
+				git branch: $params.myParameter,url: 'https://werdervg@github.com/werdervg/job2.git'
                 sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
