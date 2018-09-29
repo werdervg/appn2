@@ -25,6 +25,8 @@ agent none
     stages {
 		stage('If not select any parameters do exit') {
 		    if(!continueBuild) {
+		expression { params.myParameter == 'NULL' }
+
 			// What do I put here? currentBuild.xxx ?
 		}
 		}
