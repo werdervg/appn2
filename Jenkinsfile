@@ -23,7 +23,11 @@ agent none
         description: 'interesting stuff' )
 	}
     stages {
-	
+		stage('If not select any parameters do exit') {
+		    if(!continueBuild) {
+			// What do I put here? currentBuild.xxx ?
+		}
+		}
         stage('Clone job 1') {
 		agent {
 			node {
@@ -31,7 +35,7 @@ agent none
 			}
 		}
             when {
-                expression { params.myParameter == 'Option1' }
+                expression { params.myParameter == '${liste}' }
             }
             steps {
 				git branch: 'master',credentialsId: '123123123',url: 'https://werdervg@github.com/werdervg/job1.git' 
@@ -45,7 +49,7 @@ agent none
 				label 'slave'
 			}
             when {
-                expression { params.myParameter == 'Option2' }
+                expression { params.myParameter == '${liste}' }
             }
             steps {
 				git branch: 'master',credentialsId: '123123123',url: 'https://werdervg@github.com/werdervg/job2.git'
@@ -53,14 +57,14 @@ agent none
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
-        stage('ForTests') {
-			agent {
-				label 'slave'
-			}
-            steps {
-				build("ForTests")
-			}
-		}
+//        stage('ForTests') {
+//			agent {
+//				label 'slave'
+//			}
+//           steps {
+//				build("ForTests")
+//			}
+//		}
 	}
 post { 
 	success {
