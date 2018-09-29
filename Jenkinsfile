@@ -22,20 +22,21 @@ agent none
         choices: "${liste}",
         description: 'interesting stuff' )
 	}
-    stages {
-		stage("Check Preconditions") {
-		agent {
-			node {
-				label 'master'
-			}
-		}
-            steps {
-			if(continueBuild == false) {
-			params.myParameter = 'NULL'
-			return
-		}
-		}
-		}
+   stages {
+//		stage("Check Preconditions") {
+//		agent {
+//			node {
+//				label 'master'
+//			}
+//		}
+//            steps {
+//			if(continueBuild == false) {
+//			params.myParameter = 'NULL'
+//			return
+//		}
+//		}
+//		}
+
         stage('Clone job 1') {
 		agent {
 			node {
@@ -46,7 +47,7 @@ agent none
                 expression { params.myParameter == '${liste}' }
             }
             steps {
-				git branch: 'master',credentialsId: '123123123',url: 'https://werdervg@github.com/werdervg/job1.git' 
+				git branch: '$params.myParameter',credentialsId: '123123123',url: 'https://werdervg@github.com/werdervg/job1.git' 
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
@@ -60,7 +61,7 @@ agent none
                 expression { params.myParameter == '${liste}' }
             }
             steps {
-				git branch: 'master',credentialsId: '123123123',url: 'https://werdervg@github.com/werdervg/job2.git'
+				git branch: '$params.myParameter',credentialsId: '123123123',url: 'https://werdervg@github.com/werdervg/job2.git'
                 sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
