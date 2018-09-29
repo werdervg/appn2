@@ -11,6 +11,7 @@ node{
             sh 'git branch -r | awk \'{print $1}\' >branches.txt'
             sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
             sh 'cat branch.txt'
+			liste = readFile 'branch.txt'
         }
 }
 pipeline {
