@@ -19,6 +19,13 @@ node{
             sh 'cat commits*.txt'	
 			COMMIN_NUMBER = readFile 'commits_$BRANCH_NAME.txt'			
         }
+	stage('get build branch Parameter User Input') 
+		{
+			liste = readFile 'commits_$BRANCH_NAME.txt'
+			echo "please click on the link here to chose the branch to build"
+			input message: 'Please choose the branch to build ', ok: 'Validate!',
+			parameters: [choice(name: 'BRANCH_NAME', choices: "${liste}", description: 'commit to build?')]
+		}
 }
 
 pipeline {
@@ -30,13 +37,7 @@ agent none
         description: 'Commit' )
 	}
    stages {
-stage('get build branch Parameter User Input') {
 
-liste = readFile 'commits_$BRANCH_NAME.txt'
-echo "please click on the link here to chose the branch to build"
-input message: 'Please choose the branch to build ', ok: 'Validate!',
-parameters: [choice(name: 'BRANCH_NAME', choices: "${liste}", description: 'commit to build?')]
-}
        stage('Check Preconditions') {
 		agent {
 			node {
