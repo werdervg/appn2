@@ -5,7 +5,7 @@ node{
       {
            echo "Initializing workflow"
             echo GITHUB_PROJECT
-           git url: GITHUB_PROJECT, credentialsId: GITHUB_CREDENTIALS_ID
+           git url: GITHUB_PROJECT
             sh 'git branch -r | awk \'{print $1}\' >branches.txt'
             sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
             sh 'cat branch.txt'
