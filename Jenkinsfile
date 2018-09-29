@@ -30,9 +30,7 @@ agent none
             when {
                 expression { params.myParameter == 'NULL' }
             }
-            steps {
-return
-            }
+				return
         }
         stage('Job On Mater with MASTER Branch') {
 		agent {
