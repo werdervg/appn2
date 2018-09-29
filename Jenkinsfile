@@ -9,12 +9,14 @@ agent none
     stages {
 	 stage ("Listing Branches") 
       {
+	  steps {
            echo "Initializing workflow"
            git url: 'https://github.com/werdervg/start.git'
             sh 'git branch -r | awk \'{print $1}\' >branches.txt'
             sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
             sh 'cat branch.txt'
         }
+		}
         stage('Clone job 1') {
 		agent {
 			node {
