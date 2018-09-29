@@ -24,6 +24,11 @@ agent none
 	}
     stages {
 		stage("Check Preconditions") {
+		agent {
+			node {
+				label 'master'
+			}
+		}
 			if(continueBuild == false) {
 			params.myParameter = 'NULL'
 			return
