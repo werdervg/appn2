@@ -18,8 +18,8 @@ pipeline {
 agent none
   parameters {
     choice(
-        name: 'BRANCHNAME',
-        choices: "${BRANCH_NAME}  :",
+        name: 'BRANCHNAME : ',
+        choices: "${BRANCH_NAME}",
         description: 'On this step you need select Branch for build' )
 	}
    stages {
