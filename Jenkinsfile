@@ -29,12 +29,13 @@ agent none
 				label 'master'
 			}
 		}
+            steps {
 			if(continueBuild == false) {
 			params.myParameter = 'NULL'
 			return
 		}
 		}
-
+		}
         stage('Clone job 1') {
 		agent {
 			node {
