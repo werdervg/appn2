@@ -27,10 +27,10 @@ agent none
 				label 'master'
 			}
 		}
-            when {
-                expression { params.myParameter == 'NULL' }
-            }
-				return
+		if( $myParameter == NULL ) {
+		currentBuild.result = 'SUCCESS'
+		return
+	}
         }
         stage('Job On Mater with MASTER Branch') {
 		agent {
