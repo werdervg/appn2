@@ -19,7 +19,7 @@ node{
         }
 	stage('get build commits_ Parameter User Input') 
 		{
-			liste = readFile commits_${BRANCH_NAME}.txt
+			sh 'for i in `cat branch.txt`; do liste = readFile commits_$i.txt;done'
 			echo "please click on the link here to chose the commits_ to build"
 			input message: 'Please choose the commits_ to build ', ok: 'Validate!',
 			parameters: [choice(name: 'COMMIN_NUMBER', choices: "${liste}", description: 'commit to build?')]
