@@ -1,15 +1,10 @@
 pipeline {
 agent none
-GITHUB_PROJECT = "https://github.com/werdervg/start.git"
-GITHUB_CREDENTIALS_ID = "werdervg"
-APPLICATION_NAME = "BKbqAhPfMOTInQ3fs1hi"
-GITHUB_BRANCH = '${env.BRANCH_NAME}'
 node{
     stage ("Listing Branches") 
       {
            echo "Initializing workflow"
-            echo GITHUB_PROJECT
-           git url: GITHUB_PROJECT, credentialsId: GITHUB_CREDENTIALS_ID
+           git url: 'https://github.com/werdervg/start.git'
             sh 'git branch -r | awk \'{print $1}\' >branches.txt'
             sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
             sh 'cat branch.txt'
