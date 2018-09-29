@@ -53,15 +53,4 @@ agent none
             }
         }
 	}
-post { 
-	success {
-		node('master') {
-			deleteDir()
-		}
-		node('slave') {
-			deleteDir()
-		}
-	}
-
-}
 }
