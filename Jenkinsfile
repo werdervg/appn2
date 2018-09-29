@@ -21,16 +21,19 @@ agent none
         description: 'interesting stuff' )
 	}
    stages {
-        stage('Check BRABCH') {
+        stage('Check Preconditions') {
 		agent {
 			node {
 				label 'master'
 			}
 		}
-		if( $myParameter == NULL ) {
+            when {
+                expression { params.myParameter == 'NULL' }
+            }
+		
 		currentBuild.result = 'SUCCESS'
 		return
-	}
+		
         }
         stage('Job On Mater with MASTER Branch') {
 		agent {
