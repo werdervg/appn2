@@ -14,9 +14,8 @@ node{
       {
            echo "Initializing workflow"
             echo GITHUB_JOB
-			
-			sh 'for i in `cat branch.txt`; do git branch: $i,url: GITHUB_JOB && git log -n 5 | grep commit | cut -d \' \' -f 2 > commits_$i.txt;done'
-            sh 'cat commits*.txt'	
+			git url: GITHUB_JOB
+			sh 'for i in `cat branch.txt`; do git checkout $i && git log -n 5 | grep commit | cut -d \' \' -f 2 > commits_$i.txt;done'	
 			COMMIN_NUMBER = readFile 'commits_$BRANCH_NAME.txt'			
         }
 	stage('get build commits_ Parameter User Input') 
