@@ -21,6 +21,19 @@ agent none
         description: 'interesting stuff' )
 	}
    stages {
+        stage('Check BRABCH') {
+		agent {
+			node {
+				label 'master'
+			}
+		}
+            when {
+                expression { params.myParameter == 'NULL' }
+            }
+            steps {
+return
+            }
+        }
         stage('Job On Mater with MASTER Branch') {
 		agent {
 			node {
