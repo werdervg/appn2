@@ -23,57 +23,35 @@ agent none
         description: 'interesting stuff' )
 	}
    stages {
-//		stage("Check Preconditions") {
-//		agent {
-//			node {
-//				label 'master'
-//			}
-//		}
-//            steps {
-//			if(continueBuild == false) {
-//			params.myParameter = 'NULL'
-//			return
-//		}
-//		}
-//		}
-
-        stage('Clone job 1') {
+        stage('Job On Mater with MASTER Branch') {
 		agent {
 			node {
 				label 'master'
 			}
 		}
             when {
-                expression { params.myParameter == '${liste}' }
+                expression { params.myParameter == 'master' }
             }
             steps {
-				git branch: '$params.myParameter',credentialsId: '123123123',url: 'https://werdervg@github.com/werdervg/job1.git' 
+				git branch: '$params.myParameter',url: 'https://werdervg@github.com/werdervg/job1.git' 
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
 
-        stage('Clone job 2') {
+        stage('Job On Slave with DEVELOP Branch') {
 			agent {
 				label 'slave'
 			}
             when {
-                expression { params.myParameter == '${liste}' }
+                expression { params.myParameter == 'develop' }
             }
             steps {
-				git branch: '$params.myParameter',credentialsId: '123123123',url: 'https://werdervg@github.com/werdervg/job2.git'
+				git branch: '$params.myParameter',url: 'https://werdervg@github.com/werdervg/job2.git'
                 sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
-//        stage('ForTests') {
-//			agent {
-//				label 'slave'
-//			}
-//           steps {
-//				build("ForTests")
-//			}
-//		}
 	}
 post { 
 	success {
