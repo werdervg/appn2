@@ -7,9 +7,13 @@ agent none
         description: 'Manual input Branch name' )
 	}
     stages {
-	 stage ("Listing Branches") 
-      {
-	  steps {
+	 stage ('Listing Branches') {
+		agent {
+			node {
+				label 'master'
+			}
+		}
+		steps {
            echo "Initializing workflow"
            git url: 'https://github.com/werdervg/start.git'
             sh 'git branch -r | awk \'{print $1}\' >branches.txt'
