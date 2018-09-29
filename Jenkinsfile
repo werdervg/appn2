@@ -30,10 +30,10 @@ agent none
             when {
                 expression { params.myParameter == 'NULL' }
             }
-		
-		currentBuild.result = 'SUCCESS'
-		return
-		
+            steps {
+				currentBuild.result = 'SUCCESS'
+				return
+			}
         }
         stage('Job On Mater with MASTER Branch') {
 		agent {
