@@ -19,7 +19,7 @@ agent none
   parameters {
     choice(
         name: 'BRANCHNAME',
-        choices: "${BRANCH_NAME}",
+        choices: "${BRANCH_NAME}  :",
         description: 'On this step you need select Branch for build' )
 	}
    stages {
