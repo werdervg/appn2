@@ -1,4 +1,4 @@
-pipeline {
+1pipeline {
 agent none
   parameters {
     choice(
