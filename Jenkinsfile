@@ -1,26 +1,33 @@
 GITHUB_PIPELINE = "https://github.com/werdervg/start.git"
-GITHUB_JOB1 = "https://github.com/werdervg/job1.git"
-GITHUB_JOB2 = "https://github.com/werdervg/job2.git"
+GITHUB_JOB = "https://github.com/werdervg/job1.git"
 node{
     stage ("Listing Branches") 
       {
            echo "Initializing workflow"
-            echo GITHUB_PIPELINE
-			git url: GITHUB_PIPELINE
+            echo GITHUB_JOB
+			git url: GITHUB_JOB
             sh 'git branch -r | awk \'{print $1}\' | cut -d \'/\' -f 2 >branch.txt && sed -i \'1iNONE\' branch.txt'
-//				sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
-//				sh 'sed -i \'1iNONE\' branch.txt'
             sh 'cat branch.txt'
 			BRANCH_NAME = readFile 'branch.txt'
         }
+    stage ("Listing Commits") 
+      {
+           echo "Initializing workflow"
+            echo GITHUB_JOB
+			
+			sh 'for i in `cat branch.txt`; do git branch: $i,url: GITHUB_JOB && git log -n 5 | grep commit | cut -d \' \' -f 2 > commits_$i.txt;done'
+            sh 'cat commits*.txt'	
+			COMMIN_NUMBER = readFile 'commits_BRANCH_NAME.txt'			
+        }
 }
+
 pipeline {
 agent none
   parameters {
     choice(
-        name: 'BRANCHNAME : ',
-        choices: "${BRANCH_NAME}",
-        description: 'On this step you need select Branch for build' )
+        name: 'COMMINNUMBER : ',
+        choices: "${COMMIN_NUMBER}",
+        description: 'Commit' )
 	}
    stages {
        stage('Check Preconditions') {
@@ -37,6 +44,12 @@ agent none
 			}
        }
         stage('Job On Slave with DEVELOP Branch') {
+		parameters {
+			choice(
+			name: 'BRANCHNAME : ',
+			choices: "${BRANCH_NAME}",
+			description: 'On this step you need select Branch for build' )
+	}
 			agent {
 				label 'slave'
 			}
