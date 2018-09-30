@@ -37,56 +37,57 @@ agent none
 //			sh 'cat commits.txt'
 //		}
 //	}
-	stage('Check Preconditions') {
-		agent {
-			node {
-				label 'master'
+		stage('Check Preconditions') {
+			agent {
+				node {
+					label 'master'
+				}
+			}
+			when {
+				expression { params.BRANCHNAME == 'NONE' }
+			}
+			steps {
+				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMITSCOPE', choices: "Par1\nPar2", description: 'COMMIT to build?')]
+				sh 'echo "No parameters""$COMMITSCOPE"'
 			}
 		}
-		when {
-			expression { params.BRANCHNAME == 'NONE' }
-		}
-		steps {
-			input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMITSCOPE', choices: "Par1\nPar2", description: 'COMMIT to build?')]
-			sh 'echo "No parameters""$COMMITSCOPE"'
-		}
-	}
-	stage('Job On Slave with DEVELOP Branch') {
-		agent {
+		stage('Job On Slave with DEVELOP Branch') {
+			agent {
 				label 'slave'
 			}
-            when {
+			when {
                 expression { params.BRANCHNAME == 'develop' }
-            }
-		steps {
-			step {
-				echo "Initializing workflow"
-				echo GITHUB_JOB
-				echo "$BRANCHNAME"
-				git branch: "$BRANCHNAME",url: GITHUB_JOB
-				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
-				sh 'cat commits.txt'
 			}
-			step {
+			steps {
+				step {
+					echo "Initializing workflow"
+					echo GITHUB_JOB
+					echo "$BRANCHNAME"
+					git branch: "$BRANCHNAME",url: GITHUB_JOB
+					sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
+					sh 'cat commits.txt'
+				}
+				step {
+					git branch: "$BRANCHNAME",url: GITHUB_JOB
+					sh 'echo "Start building.."'
+					sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
+				}
+			}
+		}
+		stage('Job On Mater with MASTER Branch') {
+			agent {
+				node {
+					label 'master'
+				}
+			}
+			when {
+				expression { params.BRANCHNAME == 'master' }
+			}
+			steps {
 				git branch: "$BRANCHNAME",url: GITHUB_JOB
 				sh 'echo "Start building.."'
-				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
-            }
-        }
-	}
-	stage('Job On Mater with MASTER Branch') {
-		agent {
-			node {
-				label 'master'
+				sh 'find ./ -type f -name "*1.sh" -exec chmod +x {} \\; -exec {} \\;'
 			}
-		}
-		when {
-			expression { params.BRANCHNAME == 'master' }
-		}
-		steps {
-			git branch: "$BRANCHNAME",url: GITHUB_JOB
-			sh 'echo "Start building.."'
-			sh 'find ./ -type f -name "*1.sh" -exec chmod +x {} \\; -exec {} \\;'
 		}
 	}
 }
