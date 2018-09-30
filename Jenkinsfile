@@ -38,7 +38,8 @@ agent none
                expression { params.BRANCHNAME == 'NONE' }
            }
            steps {
-		   	   input message: 'Enter Please Commit', parameters: [choice(choices: ['1', '2', '3'], description: '', name: 'asd asd')]
+		   	input message: 'Enter Please CommitNumber', parameters: [choice(choices: ['1', '2', '3'], description: '', name: 'asdasd')]
+			sh 'echo "$asdasd"'
 			sh 'echo "No parameters"'
 			}
        }
