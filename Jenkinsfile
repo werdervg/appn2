@@ -64,9 +64,9 @@ agent none
 				echo "$BRANCHNAME"
 				git branch: "$BRANCHNAME",url: GITHUB_JOB
 				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
-				sh 'cat commits.txt'
-				COMMITSCOPE = readFile 'commits.txt'
-				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "$COMMITSCOPE", description: 'COMMIT to build?')]
+				liste = readFile 'commits.txt'
+				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "$liste", description: 'COMMIT to build?')]
+				sh 'echo "$liste"'
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
 			}
