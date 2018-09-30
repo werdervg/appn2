@@ -16,12 +16,11 @@ pipeline {
 agent none
   parameters {
     choice(
-        name: 'SELECT_BRANCH',
+        name: 'BRANCHNAME : ',
         choices: "${BRANCH_NAME}",
-        description: 'Select Branch' )
+        description: 'On this step you need select Branch for build' )
 	}
    stages {
-
        stage('Check Preconditions') {
 		agent {
 			node {
@@ -29,23 +28,29 @@ agent none
 			}
 		}
            when {
-               expression { params.SELECT_BRANCH == 'NONE' }
+               expression { params.BRANCHNAME == 'NONE' }
            }
            steps {
 			sh 'echo "No parameters"'
 			}
        }
         stage('Job On Slave with DEVELOP Branch') {
+		parameters {
+			choice(
+			name: 'BRANCHNAME : ',
+			choices: "${BRANCH_NAME}",
+			description: 'On this step you need select Branch for build' )
+	}
 			agent {
 				label 'slave'
 			}
             when {
-                expression { params.SELECT_BRANCH == 'develop' }
+                expression { params.BRANCHNAME == 'develop' }
             }
             steps {
-				git branch: "$SELECT_BRANCH",url: GITHUB_JOB
+				git branch: "$BRANCHNAME",url: GITHUB_JOB
                 sh 'echo "Start building.."'
-				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
+				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
         stage('Job On Mater with MASTER Branch') {
@@ -55,12 +60,12 @@ agent none
 			}
 		}
             when {
-                expression { params.SELECT_BRANCH == 'master' }
+                expression { params.BRANCHNAME == 'master' }
             }
             steps {
-				git branch: "$SELECT_BRANCH",url: GITHUB_JOB
+				git branch: "$BRANCHNAME",url: GITHUB_JOB
 				sh 'echo "Start building.."'
-				sh 'find ./ -type f -name "*1.sh" -exec chmod +x {} \\; -exec {} \\;'
+				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
 
