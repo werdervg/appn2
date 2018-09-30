@@ -2,15 +2,14 @@ GITHUB_PIPELINE = "https://github.com/werdervg/start.git"
 GITHUB_JOB = "https://github.com/werdervg/job1.git"
 
 node{
-    stage ("Listing Branches") 
-      {
-           echo "Initializing workflow"
-            echo GITHUB_JOB
-			git url: GITHUB_JOB
-            sh 'git branch -r | awk \'{print $1}\' | cut -d \'/\' -f 2 >branch.txt && sed -i \'1iNONE\' branch.txt'
-            sh 'cat branch.txt'
-			BRANCH_NAME = readFile 'branch.txt'
-        }
+    stage ("Listing Branches") {
+		echo "Initializing workflow"
+		echo GITHUB_JOB
+		git url: GITHUB_JOB
+		sh 'git branch -r | awk \'{print $1}\' | cut -d \'/\' -f 2 >branch.txt && sed -i \'1iNONE\' branch.txt'
+		sh 'cat branch.txt'
+		BRANCH_NAME = readFile 'branch.txt'
+	}
 
 }
 pipeline {
@@ -47,8 +46,7 @@ agent none
 				expression { params.BRANCHNAME == 'NONE' }
 			}
 			steps {
-				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "Par1\nPar2", description: 'COMMIT to build?')]
-				sh 'echo "No parameters""$COMMITSCOPE"'
+				sh 'echo "No parameters"'
 			}
 		}
 		stage('Job On Slave with DEVELOP Branch') {
@@ -66,7 +64,7 @@ agent none
 				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
 				liste = readFile 'commits.txt'
 				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "$liste", description: 'COMMIT to build?')]
-				sh 'echo "$liste"'
+				sh 'echo $liste'
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
 			}
