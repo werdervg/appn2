@@ -33,9 +33,8 @@ agent none
                expression { params.BRANCHNAME == 'NONE' }
            }
            steps {
-			input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "Par1\nPar2", description: 'COMMIT to build?')]
-			sh 'echo "$COMMIT_SCOPE"'
-			sh 'echo "No parameters"'
+			input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMITSCOPE', choices: "Par1\nPar2", description: 'COMMIT to build?')]
+			sh 'echo "No parameters""$COMMITSCOPE"'
 			}
        }
         stage('Job On Slave with DEVELOP Branch') {
