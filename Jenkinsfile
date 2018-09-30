@@ -19,11 +19,11 @@ agent none
         name: 'BRANCHNAME',
         choices: "${BRANCH_NAME}",
         description: 'On this step you need select Branch for build' )
-	}
+
     choice(
         name: 'COMMITSELLECT',
         choices: "Par1\nPar2",
-        description: 'Select commit'
+        description: 'Select commit')
 	}
    stages {
        stage('Check Preconditions') {
