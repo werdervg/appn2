@@ -58,13 +58,12 @@ agent none
 			}
 			steps {
 				echo "Initializing workflow"
-				echo GITHUB_JOB
-				echo "$BRANCHNAME"
 				git branch: "$BRANCHNAME",url: GITHUB_JOB
 				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
 				sh 'liste = `cat commits.txt`'
 				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "Par1\nPar2", description: 'COMMIT to build?')]
 				sh 'echo $liste'
+				git branch: "$BRANCHNAME",url: GITHUB_JOB
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
 			}
