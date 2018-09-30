@@ -80,12 +80,13 @@ agent none
 				echo "Initializing workflow"
 				git branch: "$BRANCHNAME",url: GITHUB_JOB
 				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
-				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "ddd1c28cbcdabe79bac408801bfaacc8d0dfe8c2\ne82c01f19a1b04384bde72b0a4add99dcf5eaa17", description: 'COMMIT to build?')]
-				sh 'echo $liste'
-				git url: GITHUB_JOB, branch: "$BRANCHNAME"
-				sh 'echo "Start building.."'
-				sh 'git checkout "${COMMIT_SCOPE}"'
-				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
+				env.COMMIT_SCOPE = readFile 'commits.txt'
+				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "$COMMIT_SCOPE", description: 'COMMIT to build?')]
+				sh 'echo $COMMIT_SCOPE'
+//				git url: GITHUB_JOB, branch: "$BRANCHNAME"
+//				sh 'echo "Start building.."'
+//				sh 'git checkout $COMMIT_SCOPE'
+//				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
 			}
 		}
 
