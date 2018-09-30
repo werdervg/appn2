@@ -27,7 +27,7 @@ agent none
 	}
    stages {
        stage('Check Preconditions') {
-	   input message: 'Enter Please Commit', parameters: [choice(choices: ['1', '2', '3'])]
+	   
 
 		agent {
 			node {
@@ -38,6 +38,7 @@ agent none
                expression { params.BRANCHNAME == 'NONE' }
            }
            steps {
+		   input message: 'Enter Please Commit', parameters: [choice(choices: ['1', '2', '3'])]
 			sh 'echo "No parameters"'
 			}
        }
