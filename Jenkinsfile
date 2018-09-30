@@ -23,7 +23,7 @@ agent none
     choice(
         name: 'COMMITSELLECT',
         choices: "Par1\nPar2",
-        description: 'Select commit' )
+        description: 'Select commit'
 	}
    stages {
        stage('Check Preconditions') {
