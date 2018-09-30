@@ -10,20 +10,13 @@ node{
             sh 'cat branch.txt'
 			BRANCH_NAME = readFile 'branch.txt'
         }
-    stage ("Listing Commits") 
-      {
-           echo "Initializing workflow"
-            echo GITHUB_JOB
-			git url: GITHUB_JOB
-			sh 'for i in `cat branch.txt`; do git checkout $i && git log -n 5 | grep commit | cut -d \' \' -f 2 > commits_$i.txt;done'	
-        }
 }
 
 pipeline {
 agent none
   parameters {
     choice(
-        name: 'BRANCHNAME : ',
+        name: 'SELECT_BRANCH',
         choices: "${BRANCH_NAME}",
         description: 'Select Branch' )
 	}
@@ -36,7 +29,7 @@ agent none
 			}
 		}
            when {
-               expression { params.BRANCHNAME == 'NONE' }
+               expression { params.SELECT_BRANCH == 'NONE' }
            }
            steps {
 			sh 'echo "No parameters"'
@@ -47,10 +40,10 @@ agent none
 				label 'slave'
 			}
             when {
-                expression { params.BRANCHNAME == 'develop' }
+                expression { params.SELECT_BRANCH == 'develop' }
             }
             steps {
-				git branch: "$BRANCHNAME",url: GITHUB_JOB
+				git branch: "$SELECT_BRANCH",url: GITHUB_JOB
                 sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
@@ -62,10 +55,10 @@ agent none
 			}
 		}
             when {
-                expression { params.BRANCHNAME == 'master' }
+                expression { params.SELECT_BRANCH == 'master' }
             }
             steps {
-				git branch: "$BRANCHNAME",url: GITHUB_JOB
+				git branch: "$SELECT_BRANCH",url: GITHUB_JOB
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*1.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
