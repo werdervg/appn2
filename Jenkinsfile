@@ -33,9 +33,8 @@ agent none
                expression { params.BRANCHNAME == 'NONE' }
            }
            steps {
-			env.COMMIT_SCOPE = input message: 'Please choose the branch to build ', ok: 'Validate!',
-			parameters: [choice(name: 'COMMIT_SCOPE', choices: "Par1\nPar2", description: 'COMMIT to build?')]
-			sh 'echo ${env.COMMIT_SCOPE}'
+			input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "Par1\nPar2", description: 'COMMIT to build?')]
+			sh 'echo ${COMMIT_SCOPE}'
 			sh 'echo "No parameters"'
 			}
        }
