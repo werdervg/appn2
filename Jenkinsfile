@@ -19,11 +19,6 @@ agent none
         name: 'BRANCHNAME',
         choices: "${BRANCH_NAME}",
         description: 'On this step you need select Branch for build' )
-
-    choice(
-        name: 'COMMITSELLECT',
-        choices: "Par1\nPar2",
-        description: 'Select commit')
 	}
    stages {
        stage('Check Preconditions') {
@@ -38,8 +33,9 @@ agent none
                expression { params.BRANCHNAME == 'NONE' }
            }
            steps {
-		   	input message: 'Enter Please CommitNumber', parameters: [choice(choices: ['1', '2', '3'], description: '', name: 'asdasd')]
-			sh 'echo "$asdasd"'
+			env.COMMIT_SCOPE = input message: 'Please choose the branch to build ', ok: ‘Validate!',
+			parameters: [choice(name: 'COMMIT_SCOPE', choices: "Par1\nPar2", description: 'COMMIT to build?')]
+			sh 'echo ${env.COMMIT_SCOPE}'
 			sh 'echo "No parameters"'
 			}
        }
