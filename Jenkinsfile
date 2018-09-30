@@ -35,12 +35,6 @@ agent none
 			}
        }
         stage('Job On Slave with DEVELOP Branch') {
-		parameters {
-			choice(
-			name: 'BRANCHNAME : ',
-			choices: "${BRANCH_NAME}",
-			description: 'On this step you need select Branch for build' )
-	}
 			agent {
 				label 'slave'
 			}
