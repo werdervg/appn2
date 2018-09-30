@@ -10,6 +10,7 @@ node{
 		sh 'cat branch.txt'
 		BRANCH_NAME = readFile 'branch.txt'
 	}
+	
 
 }
 pipeline {
@@ -78,14 +79,13 @@ agent none
 			}
 			steps {
 				echo "Initializing workflow"
+				echo GITHUB_JOB
+				echo "$BRANCHNAME"
 				git branch: "$BRANCHNAME",url: GITHUB_JOB
-				sh 'COMMIT_SCOPE=$(git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt)'
-				sh 'echo $COMMIT_SCOPE'
-//				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "ddd1c28cbcdabe79bac408801bfaacc8d0dfe8c2\ne82c01f19a1b04384bde72b0a4add99dcf5eaa17", description: 'COMMIT to build?')]
-//				git url: GITHUB_JOB, branch: "$BRANCHNAME"
-//				sh 'echo "Start building.."'
-//				sh 'git checkout $COMMIT_SCOPE'
-//				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
+				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
+				sh 'cat commits.txt'
+				sh 'echo "Start building.."'
+				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
 			}
 		}
 
