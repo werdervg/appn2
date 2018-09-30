@@ -8,8 +8,6 @@ node{
             echo GITHUB_JOB
 			git url: GITHUB_JOB
             sh 'git branch -r | awk \'{print $1}\' | cut -d \'/\' -f 2 >branch.txt && sed -i \'1iNONE\' branch.txt'
-//				sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
-//				sh 'sed -i \'1iNONE\' branch.txt'
             sh 'cat branch.txt'
 			BRANCH_NAME = readFile 'branch.txt'
         }
@@ -21,6 +19,11 @@ agent none
         name: 'BRANCHNAME',
         choices: "${BRANCH_NAME}",
         description: 'On this step you need select Branch for build' )
+	}
+    choice(
+        name: 'COMMITSELLECT',
+        choices: "Par1\nPar2",
+        description: 'Select commit' )
 	}
    stages {
        stage('Check Preconditions') {
