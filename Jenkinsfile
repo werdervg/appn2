@@ -73,16 +73,17 @@ agent none
 			agent {
 				label 'slave'
 			}
+				git branch: "$BRANCHNAME",url: GITHUB_JOB
+				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
+				listcommit = readFile 'commits.txt'
 			when {
                 expression { params.BRANCHNAME == 'develop' }
 			}
 			steps {
 				echo "Initializing workflow"
-				git branch: "$BRANCHNAME",url: GITHUB_JOB
-				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
-				env.COMMIT_SCOPE = readFile 'commits.txt'
-				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMITSCOPE', choices: "$COMMIT_SCOPE", description: 'COMMIT to build?')]
-				sh 'echo $COMMIT_SCOPE'
+
+				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMITSCOPE', choices: "$listcommit", description: 'COMMIT to build?')]
+				sh 'echo $listcommit'
 //				git url: GITHUB_JOB, branch: "$BRANCHNAME"
 //				sh 'echo "Start building.."'
 //				sh 'git checkout $COMMIT_SCOPE'
