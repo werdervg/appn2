@@ -1,12 +1,12 @@
 GITHUB_PIPELINE = "https://github.com/werdervg/start.git"
-GITHUB_JOB1 = "https://github.com/werdervg/job1.git"
-GITHUB_JOB2 = "https://github.com/werdervg/job2.git"
+GITHUB_JOB = "https://github.com/werdervg/job1.git"
+
 node{
     stage ("Listing Branches") 
       {
            echo "Initializing workflow"
-            echo GITHUB_PIPELINE
-			git url: GITHUB_PIPELINE
+            echo GITHUB_JOB
+			git url: GITHUB_JOB
             sh 'git branch -r | awk \'{print $1}\' | cut -d \'/\' -f 2 >branch.txt && sed -i \'1iNONE\' branch.txt'
 //				sh 'cut -d \'/\' -f 2 branches.txt>branch.txt'
 //				sh 'sed -i \'1iNONE\' branch.txt'
@@ -44,9 +44,9 @@ agent none
                 expression { params.BRANCHNAME == 'develop' }
             }
             steps {
-				git branch: "$BRANCHNAME",url: GITHUB_JOB2
+				git branch: "$BRANCHNAME",url: GITHUB_JOB
                 sh 'echo "Start building.."'
-				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
+				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
         stage('Job On Mater with MASTER Branch') {
@@ -59,9 +59,9 @@ agent none
                 expression { params.BRANCHNAME == 'master' }
             }
             steps {
-				git branch: "$BRANCHNAME",url: GITHUB_JOB1
+				git branch: "$BRANCHNAME",url: GITHUB_JOB
 				sh 'echo "Start building.."'
-				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
+				sh 'find ./ -type f -name "*1.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
 
