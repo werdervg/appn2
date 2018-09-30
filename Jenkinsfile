@@ -11,6 +11,15 @@ node{
             sh 'cat branch.txt'
 			BRANCH_NAME = readFile 'branch.txt'
         }
+stage ("Listing Commits") 
+      {
+           echo "Initializing workflow"
+            echo GITHUB_JOB
+			git url: GITHUB_JOB
+            sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
+			sh 'cat commits.txt'
+        }
+}
 }
 pipeline {
 agent none
