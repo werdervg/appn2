@@ -59,42 +59,34 @@ agent none
                 expression { params.BRANCHNAME == 'develop' }
             }
 		steps {
-			echo "Initializing workflow"
-			echo GITHUB_JOB
-			echo "$BRANCHNAME"
-			git branch: "$BRANCHNAME",url: GITHUB_JOB
-			sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
-			sh 'cat commits.txt'
-		}
-		steps {
-			git branch: "$BRANCHNAME",url: GITHUB_JOB
-			sh 'echo "Start building.."'
-			sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
+			step {
+				echo "Initializing workflow"
+				echo GITHUB_JOB
+				echo "$BRANCHNAME"
+				git branch: "$BRANCHNAME",url: GITHUB_JOB
+				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
+				sh 'cat commits.txt'
+			}
+			step {
+				git branch: "$BRANCHNAME",url: GITHUB_JOB
+				sh 'echo "Start building.."'
+				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
             }
         }
+	}
 	stage('Job On Mater with MASTER Branch') {
 		agent {
 			node {
 				label 'master'
 			}
 		}
-            when {
-                expression { params.BRANCHNAME == 'master' }
-            }
-		steps {
-			echo "Initializing workflow"
-			echo GITHUB_JOB
-			echo "$BRANCHNAME"
-			git branch: "$BRANCHNAME",url: GITHUB_JOB
-			sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
-			sh 'cat commits.txt'
+		when {
+			expression { params.BRANCHNAME == 'master' }
 		}
 		steps {
 			git branch: "$BRANCHNAME",url: GITHUB_JOB
 			sh 'echo "Start building.."'
 			sh 'find ./ -type f -name "*1.sh" -exec chmod +x {} \\; -exec {} \\;'
-            }
-        }
-
+		}
 	}
 }
