@@ -85,6 +85,7 @@ agent none
 //				sh 'echo $liste'
 				git url: GITHUB_JOB, branch: "$BRANCHNAME", commit: "$COMMIT_SCOPE"
 				sh 'echo "Start building.."'
+				sh 'git checkout $COMMIT_SCOPE'
 				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
 			}
 		}
