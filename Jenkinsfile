@@ -81,7 +81,7 @@ agent none
 				git branch: "$BRANCHNAME",url: GITHUB_JOB
 				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
 				env.COMMIT_SCOPE = readFile 'commits.txt'
-				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "$COMMIT_SCOPE", description: 'COMMIT to build?')]
+				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMITSCOPE', choices: "$COMMIT_SCOPE", description: 'COMMIT to build?')]
 				sh 'echo $COMMIT_SCOPE'
 //				git url: GITHUB_JOB, branch: "$BRANCHNAME"
 //				sh 'echo "Start building.."'
