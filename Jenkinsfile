@@ -20,7 +20,6 @@ stage ("Listing Commits")
 			sh 'cat commits.txt'
         }
 }
-}
 pipeline {
 agent none
   parameters {
