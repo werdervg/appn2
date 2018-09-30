@@ -27,6 +27,8 @@ agent none
 	}
    stages {
        stage('Check Preconditions') {
+	   input message: 'Enter Please Commit', parameters: [choice(choices: ['1', '2', '3'])]
+
 		agent {
 			node {
 				label 'master'
