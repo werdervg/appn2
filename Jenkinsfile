@@ -59,16 +59,14 @@ agent none
                 expression { params.BRANCHNAME == 'develop' }
 			}
 			steps {
-
-					echo "Initializing workflow"
-					echo GITHUB_JOB
-					echo "$BRANCHNAME"
-					git branch: "$BRANCHNAME",url: GITHUB_JOB
-					sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
-					sh 'cat commits.txt'
-					sh 'echo "Start building.."'
-					sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
-
+				echo "Initializing workflow"
+				echo GITHUB_JOB
+				echo "$BRANCHNAME"
+				git branch: "$BRANCHNAME",url: GITHUB_JOB
+				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
+				sh 'cat commits.txt'
+				sh 'echo "Start building.."'
+				sh 'find ./ -type f -name "*2.sh" -exec chmod +x {} \\; -exec {} \\;'
 			}
 		}
 		stage('Job On Mater with MASTER Branch') {
@@ -81,7 +79,12 @@ agent none
 				expression { params.BRANCHNAME == 'master' }
 			}
 			steps {
+				echo "Initializing workflow"
+				echo GITHUB_JOB
+				echo "$BRANCHNAME"
 				git branch: "$BRANCHNAME",url: GITHUB_JOB
+				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
+				sh 'cat commits.txt'
 				sh 'echo "Start building.."'
 				sh 'find ./ -type f -name "*1.sh" -exec chmod +x {} \\; -exec {} \\;'
 			}
