@@ -81,7 +81,7 @@ agent none
 //				git branch: "$BRANCHNAME",url: GITHUB_JOB
 //				sh 'git log -n 5 |grep commit | awk \'{print $2}\'> commits.txt'
 //				sh 'liste = `cat commits.txt`'
-//				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "d384fb858883ef8a748d34ffcbbe1598f13ff99f\ne82c01f19a1b04384bde72b0a4add99dcf5eaa17", description: 'COMMIT to build?')]
+				input message: 'Please choose the branch to build ', ok: 'Validate!', parameters: [choice(name: 'COMMIT_SCOPE', choices: "d384fb858883ef8a748d34ffcbbe1598f13ff99f\ne82c01f19a1b04384bde72b0a4add99dcf5eaa17", description: 'COMMIT to build?')]
 //				sh 'echo $liste'
 				git branch: "$BRANCHNAME",url: GITHUB_JOB
 				sh 'echo "Start building.."'
