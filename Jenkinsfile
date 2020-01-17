@@ -1,10 +1,11 @@
+REGISTRY_URL = "registry.mydomain.com:5000"
+GIT_SOURCE = "https://github.com/werdervg/start.git"
 node {
 	def mvnHome
 	def REGISTRY_URL
 	def GIT_SOURCE
 	stage('Preparation') {
-		REGISTRY_URL = "registry.mydomain.com:5000"
-		GIT_SOURCE = "https://github.com/werdervg/start.git"
+
 		sh 'rm -rf ./*'
 		git url: GIT_SOURCE
 		mvnHome = tool 'maven 3.6.3'
@@ -21,12 +22,12 @@ node {
 }
 	stage('Build Docker Image') {
 			echo "Initializing workflow"
-			sh 'docker-compose --project-name $JOB_NAME build  && echo "Build Finished" || exit 1'
-			sh 'docker login https://$REGISTRY_URL'
-			sh 'docker tag "$JOB_NAME"_app:latest "$REGISTRY_URL"/"$JOB_NAME"_app:latest'
-			sh 'docker push "$REGISTRY_URL"/"$JOB_NAME"_app:latest'
-			sh 'docker tag "$JOB_NAME"_app:latest "$REGISTRY_URL"/"$JOB_NAME"_app:v$BUILD_NUMBER'
-			sh 'docker push "$REGISTRY_URL"/"$JOB_NAME"_app:v$BUILD_NUMBER'
+			sh docker-compose --project-name $JOB_NAME build  && echo "Build Finished" || exit 1
+			sh docker login https://$REGISTRY_URL
+			sh docker tag "$JOB_NAME"_app:latest "$REGISTRY_URL"/"$JOB_NAME"_app:latest
+			sh docker push "$REGISTRY_URL"/"$JOB_NAME"_app:latest
+			sh docker tag "$JOB_NAME"_app:latest "$REGISTRY_URL"/"$JOB_NAME"_app:v$BUILD_NUMBER
+			sh docker push "$REGISTRY_URL"/"$JOB_NAME"_app:v$BUILD_NUMBER
 	}
 	stage('Clean Docker Image') {
 			sh 'docker rmi -f "$JOB_NAME"_app:latest'
