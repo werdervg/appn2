@@ -21,7 +21,7 @@ node {
 	}
 	stage('Build Docker Image') {
 			echo "Initializing workflow"
-			sh docker-compose --project-name $JOB_NAME build && echo Finished || exit 1
+			sh 'docker-compose --project-name $JOB_NAME build && echo "Build Finished" || exit 1'
 			sh docker login https://$REGISTRY_URL
 			sh docker tag "$JOB_NAME"_app:latest $REGISTRY_URL/"$JOB_NAME"_app:latest
 			sh docker push $REGISTRY_URL/"$JOB_NAME"_app:latest
