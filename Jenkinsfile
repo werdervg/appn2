@@ -15,6 +15,7 @@ pipeline {
 		MAV_VER = '$MavenVersion'
 		JAVA_VER = '$JavaVersion'
 //		JAVA_HOME = '/var/jenkins_home/tools/Java/$JavaVersion'
+		replace_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 	}
 agent any
 	parameters {
@@ -49,7 +50,6 @@ stages {
 			expression { params.Deploing == 'YES' }
 		}
 		steps{
-			sh "replace_path=$registry/$JOB_NAME:v$BUILD_NUMBER"
 			sh "echo $replace_path"
 			sh "sed -i s/app_name/$JOB_NAME/g docker-teplate.yaml"
 //			sh "sed -i s/image_location/$replace_path/g docker-teplate.yaml"
