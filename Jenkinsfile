@@ -5,11 +5,6 @@ node{
 	stage ("Get JAVA version") {
         	JAVA_Version = sh (script: 'ls /var/jenkins_home/tools/Java/', returnStdout: true).trim()
 	}
-	stage('Prepering docker-teplate file') {
-		def text = readFile "docker-teplate.yaml"
-		text.replaceAll("app_name", "${JOB_NAME}")
-		text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
-	}
 }
 pipeline {
 	environment {
@@ -22,6 +17,13 @@ pipeline {
 //		JAVA_HOME = '/var/jenkins_home/tools/Java/$JavaVersion'
 	}
 agent any
+	node{
+		stage('Prepering docker-teplate file') {
+			def text = readFile "docker-teplate.yaml"
+			text.replaceAll("app_name", "${JOB_NAME}")
+			text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
+		}
+	}
 	parameters {
 		choice(name: 'MavenVersion', choices: "${Maven_Version}", description: 'On this step you need select Maven Version')
 		choice(name: 'JavaVersion', choices: "${JAVA_Version}", description: 'On this step you need select JAVA Version')
