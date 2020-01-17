@@ -11,6 +11,7 @@ pipeline {
 		registry = 'registry.mydomain.com:5000'
 		dockerImage = ''
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
+		APP_EXTPORT = '30100'
 		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		MAV_VER = '$MavenVersion'
 		JAVA_VER = '$JavaVersion'
@@ -37,6 +38,9 @@ stages {
 		steps{
 			script {
 				sh "sed -i s/#build/build/g docker-compose.yaml"
+				sh "sed -i s/JOB_NAME/${JOB_NAME}/g docker-compose.yaml"
+				sh "sed -i s/APP_NAME/${JOB_NAME}/g docker-compose.yaml"
+				sh "sed -i s/APP_EXTPORT/${APP_EXTPORT}/g docker-compose.yaml"				
 				dockerImage = docker.build registry + "/$JOB_NAME" + ":latest"
 				sh "docker login https://$registry"
 				sh "docker tag $registry/$JOB_NAME:latest $JOB_NAME:latest"
@@ -53,9 +57,7 @@ stages {
 		steps {
 			sh "sed -i s/build/#build/g docker-compose.yaml"
 			sh "sed -i s/#image/image/g docker-compose.yaml"
-			sh "sed -i s/JOB_NAME/${JOB_NAME}/g docker-compose.yaml"
-			sh "sed -i s/APP_NAME/${JOB_NAME}/g docker-compose.yaml"
-			sh "docker-compose up -d || exit 1"
+			sh "docker-compose up -d"
 		}
 	}
 	
