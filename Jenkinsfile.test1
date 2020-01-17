@@ -1,51 +1,41 @@
 pipeline {
-  environment {
-    registry = 'registry.mydomain.com:5000'
-    registryCredential = 'admin'
-    dockerImage = ''
-    GIT_SOURCE = 'https://github.com/werdervg/start.git'
-}
-  agent any
-  node {
-	def mvnHome
-	def REGISTRY_URL
+	environment {
+		registry = 'registry.mydomain.com:5000'
+		registryCredential = 'admin'
+		dockerImage = ''
+		GIT_SOURCE = 'https://github.com/werdervg/start.git'
+	}
+agent any
+
+		
+stages {
 	stage('Preparation') {
 		sh 'rm -rf ./*'
-		git url: GIT_SOURCE
-		mvnHome = tool 'maven 3.6.3'
-	}
+		}
 	stage('Build') {
-		withEnv(["MVN_HOME=$mvnHome"]) {
-			if (isUnix()) {
-				sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
-		} else {
-			bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package/)
-		}
+		sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
 		sh 'cp target/*.jar app.jar'
+	}
+	stage('Building image') {
+		steps{
+			script {
+				dockerImage = docker.build registry + "/$JOB_NAME" + ":v$BUILD_NUMBER"
+			}
 		}
 	}
+	stage('Deploy Image') {
+		steps{
+			script {
+				docker.withRegistry( '' ) {
+					dockerImage.push()
+				}
+			}
+		}
 	}
-  stages {
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build registry + "/$JOB_NAME" + ":v$BUILD_NUMBER"
-        }
-      }
-    }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '' ) {
-            dockerImage.push()
-          }
-        }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $registry/$JOB_NAME:$BUILD_NUMBER"
-      }
-    }
-  }
+	stage('Remove Unused docker image') {
+		steps{
+			sh "docker rmi $registry/$JOB_NAME:$BUILD_NUMBER"
+		}
+	}
+}
 }
