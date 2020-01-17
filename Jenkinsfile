@@ -4,7 +4,7 @@ node {
 	def GIT_SOURCE
 	stage('Preparation') {
 		REGISTRY_URL = "registry.mydomain.com:5000"
-		GIT_SOURCE = "https:github.com/werdervg/start.git"
+		GIT_SOURCE = "https://github.com/werdervg/start.git"
 		sh 'rm -rf ./*'
 		git url: GIT_SOURCE
 		mvnHome = tool 'maven 3.6.3'
