@@ -4,11 +4,16 @@ node {
       git 'https://github.com/jglick/simple-maven-project-with-tests.git'
       mvnHome = tool 'maven 3.6.3'
    }
-   stage('Build Source') {
+   stage('Build') {
+      // Run the maven build
       withEnv(["MVN_HOME=$mvnHome"]) {
+         if (isUnix()) {
             sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
+         } else {
+            bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package/)
          }
       }
+   }
    stage('Build Docker Image') {
       git https://github.com/werdervg/prod.git
       sh 'cp target/*.jar prod/'
