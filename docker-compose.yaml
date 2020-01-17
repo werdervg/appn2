@@ -1,6 +1,6 @@
 version: '3'
 services:
-  APP_NAME:
+  app:
     #image: JOB_NAME:latest
     #build: .
     restart: always
