@@ -51,10 +51,10 @@ stages {
 			expression { params.Deploing == 'YES' }
 		}
 		steps('Prepering docker-teplate file') {
-			sh "sed -i 's/app_name/$JOB_NAME/g' docker-teplate.yaml"
-			sh "sed -i 's/image_location/$registry\/$JOB_NAME:v$BUILD_NUMBER/g' docker-teplate.yaml"
-			sh "sed -i 's/ExternalPort/$ExternalPort/g' docker-teplate.yaml"
-			sh "sed -i 's/InternalPort/$InternalPort/g' docker-teplate.yaml"
+			sh """sed -i 's/app_name/$JOB_NAME/g' docker-teplate.yaml"""
+			sh """sed -i 's/image_location/$registry\/$JOB_NAME:v$BUILD_NUMBER/g' docker-teplate.yaml"""
+			sh """sed -i 's/ExternalPort/$ExternalPort/g' docker-teplate.yaml"""
+			sh """sed -i 's/InternalPort/$InternalPort/g' docker-teplate.yaml"""
 
 		}
 		steps {
