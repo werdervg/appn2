@@ -22,25 +22,13 @@ agent any
         description: 'On this step you need select Maven Version' )
 	}
 stages {
-	stage('Build With maven 3.6.3') {
-		when {
-			expression { params.MavenVersion == 'maven_3.6.3' }
-		}
+	stage('Build With maven') {
 		steps {
 			script {
 				sh "echo $MAV_VER"
-				sh "$Maven_home/maven_3.6.3/bin/mvn -Dmaven.test.failure.ignore clean package"
+				sh "$Maven_home/$MAV_VER/bin/mvn -Dmaven.test.failure.ignore clean package"
 				sh 'cp target/*.jar app.jar'
 			}
-		}
-	}
-	stage('Build With maven 2.2.1') {
-		when {
-			expression { params.MavenVersion == 'maven_2.2.1' }
-		}
-		steps {
-			sh "$Maven_home/maven_2.2.1/bin/mvn -Dmaven.test.failure.ignore clean package"
-			sh 'cp target/*.jar app.jar'
 		}
 	}
 	stage('Building image') {
