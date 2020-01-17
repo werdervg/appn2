@@ -50,19 +50,20 @@ stages {
 		}
 		steps{
 			sh "sed -i s/app_name/$JOB_NAME/g docker-teplate.yaml"
+			sh "sed -i s/image_location/$registry/$JOB_NAME:v$BUILD_NUMBER/g docker-teplate.yaml"
 //			def text = readFile "docker-teplate.yaml"
 //			text.replaceAll("app_name", "${JOB_NAME}")
 //			text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
 		}
 	}
-	stage('Deploing image to ENV') {
-		when {
-			expression { params.Deploing == 'YES' }
-		}
-		steps {
-			sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
-		}
-	}
+//	stage('Deploing image to ENV') {
+//		when {
+//			expression { params.Deploing == 'YES' }
+//		}
+//		steps {
+//			sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
+//		}
+//	}
 	
 	stage('Remove Unused docker image') {
 		steps{
