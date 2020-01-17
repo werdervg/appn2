@@ -44,17 +44,6 @@ stages {
 			}
 		}
 	}
-
-        stage('Prepering docker-teplate file') {
-		when {
-			expression { params.Deploing == 'YES' }
-		}
-		steps{
-			sh "sed -i s/app_name/$JOB_NAME/g docker-teplate.yaml"
-			sh "sed -i s/image_location/$replace_registry_path/g docker-teplate.yaml"
-
-		}
-	}
 //	stage('Deploing image to ENV') {
 //		when {
 //			expression { params.Deploing == 'YES' }
