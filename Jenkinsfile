@@ -20,5 +20,6 @@ node {
 			sh 'docker login https://registry.mydomain.com:5000'
 			sh 'docker tag "$JOB_NAME"_app:latest registry.mydomain.com:5000/"$JOB_NAME"_app:v$BUILD_NUMBER'
 			sh 'docker push registry.mydomain.com:5000/"$JOB_NAME"_app:v$BUILD_NUMBER'
+			sh 'docker push registry.mydomain.com:5000/"$JOB_NAME"_app:latest'
 	}
 }
