@@ -1,16 +1,28 @@
 pipeline {
   environment {
-    registry = "registry.mydomain.com:5000"
+    registry = 'registry.mydomain.com:5000'
     registryCredential = 'admin'
     dockerImage = ''
-  }
+    GIT_SOURCE = 'https://github.com/werdervg/start.git'
+}
   agent any
   stages {
     stage('Cloning Git') {
       steps {
         sh "rm -rf ./*"
-        git 'https://github.com/gustavoapolinario/microservices-node-example-todo-frontend.git'
+        git url: GIT_SOURCE
+        mvnHome = tool 'maven 3.6.3'
       }
+      stage('Build') {
+        withEnv(["MVN_HOME=$mvnHome"]) {
+          if (isUnix()) {
+            sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
+          } else {
+            bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package/)
+          }
+        sh 'cp target/*.jar app.jar'
+		}
+	}
     }
     stage('Building image') {
       steps{
