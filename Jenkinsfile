@@ -12,6 +12,7 @@ pipeline {
 		dockerImage = ''
 		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
+		MAV_VER = params.MavenVersion
 	}
 agent any
   parameters {
@@ -27,7 +28,7 @@ stages {
 		}
 		steps {
 			script {
-				sh echo "${params.MavenVersion}"
+				sh echo "${MAV_VER}"
 				sh "$Maven_home/maven_3.6.3/bin/mvn -Dmaven.test.failure.ignore clean package"
 				sh 'cp target/*.jar app.jar'
 			}
