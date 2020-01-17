@@ -24,7 +24,7 @@ node {
 			sh 'docker push registry.mydomain.com:5000/"$JOB_NAME"_app:v$BUILD_NUMBER'
 	}
 	stage('Clean Docker Image') {
-			sh 'docker rm "$JOB_NAME"_app:latest'
-			sh 'docker rm registry.mydomain.com:5000/"$JOB_NAME"_app:v$BUILD_NUMBER'
+			sh 'docker rmi -f "$JOB_NAME"_app:latest'
+			sh 'docker rmi -f registry.mydomain.com:5000/"$JOB_NAME"_app:v$BUILD_NUMBER'
 	}
 }
