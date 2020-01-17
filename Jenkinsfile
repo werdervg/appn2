@@ -5,6 +5,11 @@ node{
 	stage ("Get JAVA version") {
         	JAVA_Version = sh (script: 'ls /var/jenkins_home/tools/Java/', returnStdout: true).trim()
 	}
+	stage('Prepering docker-teplate file') {
+		def text = readFile "docker-teplate.yaml"
+		text.replaceAll("app_name", "${JOB_NAME}")
+		text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
+	}
 }
 pipeline {
 	environment {
@@ -47,11 +52,6 @@ stages {
         stage('Deploy docker image to ENV') {
 		when {
 			expression { params.Deploing == 'YES' }
-		}
-		steps('Prepering docker-teplate file') {
-			def text = readFile "docker-teplate.yaml"
-			text.replaceAll("app_name", "${JOB_NAME}")
-			text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
 		}
 		steps {
 			sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
