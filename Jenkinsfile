@@ -14,7 +14,7 @@ pipeline {
 		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		MAV_VER = '$MavenVersion'
 		JAVA_VER = '$JavaVersion'
-		JAVA_HOME = '/var/jenkins_home/tools/Java/$JAVA_VER'
+		JAVA_HOME = '/var/jenkins_home/tools/Java/$JavaVersion'
 	}
 agent any
 	parameters {
