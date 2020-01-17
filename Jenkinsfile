@@ -1,5 +1,6 @@
 node {
 	def mvnHome
+	def JOB_NAME = Jenkins.instance.getItemByFullName(env.JOB)
 	stage('Preparation') {
 		git 'https://github.com/werdervg/start.git'
 		mvnHome = tool 'maven 3.6.3'
