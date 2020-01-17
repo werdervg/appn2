@@ -4,7 +4,7 @@ services:
     #image: JOB_NAME:latest
     #build: .
     restart: always
-    port:
+    ports:
       - "APP_EXTPORT:8080"
     environment:
       - KEY1=VALUE1
