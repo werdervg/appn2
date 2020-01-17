@@ -49,9 +49,10 @@ stages {
 			expression { params.Deploing == 'YES' }
 		}
 		steps{
-			def text = readFile "docker-teplate.yaml"
-			text.replaceAll("app_name", "${JOB_NAME}")
-			text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
+			sh "sed -i s/app_name/"${JOB_NAME}"/g docker-teplate.yaml"
+//			def text = readFile "docker-teplate.yaml"
+//			text.replaceAll("app_name", "${JOB_NAME}")
+//			text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
 		}
 	}
 	stage('Deploing image to ENV') {
