@@ -14,6 +14,7 @@ node {
          }
       }
    }
+}
 pipeline {
 agent none
 	stages {
@@ -26,3 +27,4 @@ agent none
 			}
 		}
 	}
+}
