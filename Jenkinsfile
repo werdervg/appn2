@@ -15,7 +15,7 @@ node {
 }
 	stage('Build Docker Image') {
 			echo "Initializing workflow"
-			sh 'docker-compose --project-name $JOB_NAME $environment build  && echo "Build Finished" || exit 1'
+			sh 'docker-compose --project-name build  && echo "Build Finished" || exit 1'
 			sh 'docker login https://registry.mydomain.com:5000'
 	}
 }
