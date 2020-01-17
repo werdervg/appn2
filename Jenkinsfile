@@ -22,7 +22,8 @@ agent none
 			steps {
 				echo "Initializing workflow"
 			        sh 'cp target/*.jar prod/'
-				def customImage = docker.build("my-image:${env.BUILD_ID}")
+				sh 'docker-compose --project-name $JOB_NAME $environment build  && echo "Build Finished" || exit 1'
+				sh 'docker login https://registry.mydomain.com:5000'
 			}
 		}
 	}
