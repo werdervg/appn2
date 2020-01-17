@@ -1,5 +1,5 @@
 node{
-    stage ("Get Maven version") {
+	stage ("Get Maven version") {
 		sh 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/ > maven.txt'
 		sh 'cat maven.txt'
 		Maven_Version = readFile 'maven.txt'		
@@ -8,7 +8,6 @@ node{
 pipeline {
 	environment {
 		registry = 'registry.mydomain.com:5000'
-		registryCredential = 'admin'
 		dockerImage = ''
 		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
