@@ -24,7 +24,7 @@ stages {
 	stage('Preparation') {
 		steps {
 			sh 'rm -rf ./*'
-			git $GIT_SOURCE 
+			git clone $GIT_SOURCE 
 		}
 	}
 	stage('Build') {
