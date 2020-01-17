@@ -24,6 +24,7 @@ pipeline {
 		sh 'cp target/*.jar app.jar'
 		}
 	}
+	}
   stages {
     stage('Building image') {
       steps{
