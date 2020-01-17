@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  app_name:
+    image: image_location
+    restart: always
+    ports:
+      - "ExternalPort:InternalPort"
+    environment:
+      - KEY1=VALUE1
+      - KEY1=VALUE1
+      - KEY1=VALUE1
+      - KEY1=VALUE1
+    networks:
+      - app-network
+    volumes:
+      - ./persistent/storage1:/opt/data1
+      - ./persistent/storage1/config.yaml:/opt/config/config.yaml
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        -
+         subnet: AppsNetwork
+                                               
