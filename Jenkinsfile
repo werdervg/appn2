@@ -10,10 +10,11 @@ pipeline {
 	environment {
 		registry = 'registry.mydomain.com:5000'
 		dockerImage = ''
-		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
+		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		MAV_VER = '$MavenVersion'
 		JAVA_VER = '$JavaVersion'
+		JAVA_HOME = '/var/jenkins_home/tools/Java/$JAVA_VER'
 	}
 agent any
 	parameters {
@@ -25,6 +26,7 @@ stages {
 	stage('Build With maven') {
 		steps {
 			script {
+				sh "echo $JAVA_HOME"
 				sh "$Maven_home/$MAV_VER/bin/mvn -Dmaven.test.failure.ignore clean package"
 				sh 'cp target/*.jar app.jar'
 			}
