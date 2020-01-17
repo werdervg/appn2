@@ -50,5 +50,13 @@ stages {
 			sh "rm -rf ./*"
 		}
 	}
+        stage('Deploy docker image to ENV') {
+		when {
+			expression { params.Deploing == 'YES' }
+		}
+		steps {
+			sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
+		}
+	}
 }
 }
