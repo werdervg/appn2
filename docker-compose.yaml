@@ -1,3 +1,4 @@
+version: '3'
 services:
   APP_NAME:
     #image: JOB_NAME:latest
