@@ -1,7 +1,7 @@
 node {
    def mvnHome
    stage('Preparation') {
-      git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+      git 'https://github.com/werdervg/start.git'
       mvnHome = tool 'maven 3.6.3'
    }
    stage('Build') {
