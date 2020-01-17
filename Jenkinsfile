@@ -49,11 +49,9 @@ stages {
 			expression { params.Deploing == 'YES' }
 		}
 		steps{
-			script {
-				def text = readFile "docker-teplate.yaml"
-				text.replaceAll("app_name", "${JOB_NAME}")
-				text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
-			}
+			def text = readFile "docker-teplate.yaml"
+			text.replaceAll("app_name", "${JOB_NAME}")
+			text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
 		}
 	}
 	stage('Deploing image to ENV') {
@@ -61,9 +59,7 @@ stages {
 			expression { params.Deploing == 'YES' }
 		}
 		steps {
-			script {			
-				sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
-			}		
+			sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
 		}
 	}
 	
