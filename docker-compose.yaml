@@ -1,6 +1,6 @@
 services:
   first:
-    #image: image_location
+    #image: JOB_NAME:latest
     #build: .
     restart: always
     expose:
