@@ -45,12 +45,7 @@ stages {
 			}
 		}
 	}
-	stage('Deploy Image') {
-		steps{
-			sh echo Deploy Image
-			}
-		}
-	}
+
 	stage('Remove Unused docker image') {
 		steps{
 			sh "docker rmi $registry/$JOB_NAME:$BUILD_NUMBER"
