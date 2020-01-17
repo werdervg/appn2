@@ -1,8 +1,11 @@
 node{
 	stage ("Get Maven version") {
-		sh 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/ > maven.txt'
-		sh 'cat maven.txt'
-		Maven_Version = readFile 'maven.txt'		
+//		sh 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/ > maven.txt'
+//		sh 'cat maven.txt'
+//		Maven_Version = readFile 'maven.txt'		
+    dir('/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/') {
+        Maven_Version = sh (script: 'sh ls', returnStdout: true).trim()
+    }
 	}
 }
 pipeline {
