@@ -1,10 +1,4 @@
 node{
-  jdk = tool name: 'JDK17'
-  env.JAVA_HOME = "${jdk}"
-  echo "jdk installation path is: ${jdk}"
-  sh "${jdk}/bin/java -version"
-  sh '$JAVA_HOME/bin/java -version'
-  
     stage ("Get Maven version") {
 		sh 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/ > maven.txt'
 		sh 'cat maven.txt'
@@ -32,6 +26,7 @@ stages {
 			expression { params.MavenVersion == 'maven_3.6.3' }
 		}
 		steps {
+			sh echo "$MavenVersion"
 			sh "$Maven_home/maven_3.6.3/bin/mvn -Dmaven.test.failure.ignore clean package"
 			sh 'cp target/*.jar app.jar'
 		}
