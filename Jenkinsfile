@@ -43,13 +43,7 @@ stages {
 			}
 		}
 	}
-	stage('Remove Unused docker image') {
-		steps{
-			sh "docker rmi -f $registry/$JOB_NAME:latest"
-			sh "docker rmi -f $registry/$JOB_NAME:v$BUILD_NUMBER"
-			sh "rm -rf ./*"
-		}
-	}
+
         stage('Deploy docker image to ENV') {
 		when {
 			expression { params.Deploing == 'YES' }
@@ -58,5 +52,13 @@ stages {
 			sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
 		}
 	}
+	
+	stage('Remove Unused docker image') {
+		steps{
+			sh "docker rmi -f $registry/$JOB_NAME:latest"
+			sh "docker rmi -f $registry/$JOB_NAME:v$BUILD_NUMBER"
+			sh "rm -rf ./*"
+		}
+	}	
 }
 }
