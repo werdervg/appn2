@@ -1,26 +1,15 @@
 services:
-  first:
+  APP_NAME:
     #image: JOB_NAME:latest
     #build: .
     restart: always
-    expose:
-      - "8080"
+    port:
+      - "APP_EXTPORT:8080"
     environment:
       - KEY1=VALUE1
       - KEY2=VALUE2
       - KEY3=VALUE3
       - KEY4=VALUE4
-    networks:
-      - apps-network
     volumes:
       - ./persistent/storage1:/opt/data1
       - ./persistent/storage1/config.yaml:/opt/config/config.yaml
-
-networks:
-  apps-network:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        -
-         subnet: 172.10.11.0/24
