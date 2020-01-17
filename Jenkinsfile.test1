@@ -6,24 +6,25 @@ pipeline {
     GIT_SOURCE = 'https://github.com/werdervg/start.git'
 }
   agent any
-  stages {
-    stage('Cloning Git') {
-      steps {
-        sh "rm -rf ./*"
-        git url: GIT_SOURCE
-        mvnHome = tool 'maven 3.6.3'
-      }
-      stage('Build') {
-        withEnv(["MVN_HOME=$mvnHome"]) {
-          if (isUnix()) {
-            sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
-          } else {
-            bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package/)
-          }
-        sh 'cp target/*.jar app.jar'
+  node {
+	def mvnHome
+	def REGISTRY_URL
+	stage('Preparation') {
+		sh 'rm -rf ./*'
+		git url: GIT_SOURCE
+		mvnHome = tool 'maven 3.6.3'
+	}
+	stage('Build') {
+		withEnv(["MVN_HOME=$mvnHome"]) {
+			if (isUnix()) {
+				sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
+		} else {
+			bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package/)
+		}
+		sh 'cp target/*.jar app.jar'
 		}
 	}
-    }
+  stages {
     stage('Building image') {
       steps{
         script {
