@@ -50,8 +50,9 @@ stages {
 		}
 		steps{
 			sh "replace_path=$registry/$JOB_NAME:v$BUILD_NUMBER"
+			sh "echo $replace_path"
 			sh "sed -i s/app_name/$JOB_NAME/g docker-teplate.yaml"
-			sh "sed -i s/image_location/$replace_path/g docker-teplate.yaml"
+//			sh "sed -i s/image_location/$replace_path/g docker-teplate.yaml"
 //			def text = readFile "docker-teplate.yaml"
 //			text.replaceAll("app_name", "${JOB_NAME}")
 //			text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
