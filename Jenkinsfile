@@ -65,7 +65,6 @@ stages {
 		steps{
 			sh "docker rmi -f $registry/$JOB_NAME:latest"
 			sh "docker rmi -f $registry/$JOB_NAME:v$BUILD_NUMBER"
-			sh "docker rmi -f $JOB_NAME:latest"
 			sh "rm -rf ./*"
 		}
 	}	
