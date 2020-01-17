@@ -26,9 +26,11 @@ stages {
 			expression { params.MavenVersion == 'maven_3.6.3' }
 		}
 		steps {
-			sh echo "$params.MavenVersion"
-			sh "$Maven_home/maven_3.6.3/bin/mvn -Dmaven.test.failure.ignore clean package"
-			sh 'cp target/*.jar app.jar'
+			script {
+//				sh echo "${params.MavenVersion}"
+				sh "$Maven_home/maven_3.6.3/bin/mvn -Dmaven.test.failure.ignore clean package"
+				sh 'cp target/*.jar app.jar'
+			}
 		}
 	}
 	stage('Build With maven 2.2.1') {
