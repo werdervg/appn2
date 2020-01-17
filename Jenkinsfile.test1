@@ -26,7 +26,6 @@ stages {
 			expression { params.MavenVersion == 'maven_3.6.3' }
 		}
 		steps {
-			sh "git clone $GIT_SOURCE"
 			sh "$Maven_home/maven_3.6.3/bin/mvn -Dmaven.test.failure.ignore clean package"
 			sh 'cp target/*.jar app.jar'
 		}
@@ -36,7 +35,6 @@ stages {
 			expression { params.MavenVersion == 'maven_2.2.1' }
 		}
 		steps {
-			sh "git clone $GIT_SOURCE"
 			sh "$Maven_home/maven_2.2.1/bin/mvn -Dmaven.test.failure.ignore clean package"
 			sh 'cp target/*.jar app.jar'
 		}
@@ -57,6 +55,7 @@ stages {
 		steps{
 			sh "docker rmi -f $registry/$JOB_NAME:latest"
 			sh "docker rmi -f $registry/$JOB_NAME:v$BUILD_NUMBER"
+			sh "rm -rf ./*"
 		}
 	}
 }
