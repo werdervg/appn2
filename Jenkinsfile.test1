@@ -3,15 +3,15 @@ node{
 		sh 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/ > maven.txt'
 		sh 'cat maven.txt'
 		Maven_Version = readFile 'maven.txt'
+		GIT_SOURCE = 'https://github.com/werdervg/start.git'
+		MVN_HOME = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/maven_3.6.3'
 	}
 }
 pipeline {
 	environment {
 		registry = 'registry.mydomain.com:5000'
 		registryCredential = 'admin'
-		dockerImage = ''
-		GIT_SOURCE = 'https://github.com/werdervg/start.git'
-		MVN_HOME = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/maven_3.6.3'
+		dockerImage = ''			
 	}
 agent any
   parameters {
