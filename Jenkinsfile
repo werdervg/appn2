@@ -8,8 +8,6 @@ node{
 }
 pipeline {
 	environment {
-		ExternalPort = "8090"
-		InternalPort = "8080"
 		registry = 'registry.mydomain.com:5000'
 		dockerImage = ''
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
@@ -53,9 +51,6 @@ stages {
 		steps('Prepering docker-teplate file') {
 			sh """sed -i 's/app_name/$JOB_NAME/g' docker-teplate.yaml"""
 			sh """sed -i 's/image_location/$registry\/$JOB_NAME:v$BUILD_NUMBER/g' docker-teplate.yaml"""
-			sh """sed -i 's/ExternalPort/$ExternalPort/g' docker-teplate.yaml"""
-			sh """sed -i 's/InternalPort/$InternalPort/g' docker-teplate.yaml"""
-
 		}
 		steps {
 			sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
