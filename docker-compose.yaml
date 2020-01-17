@@ -1,0 +1,9 @@
+version: '3'
+services:
+  simple-app:
+    build: .
+    restart: always
+    networks:
+      - app-network
+    expose:
+      - "8080"
