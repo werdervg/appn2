@@ -28,7 +28,7 @@ stages {
 		}
 		steps {
 			script {
-				sh echo "${MAV_VER}"
+				sh "echo $MAV_VER"
 				sh "$Maven_home/maven_3.6.3/bin/mvn -Dmaven.test.failure.ignore clean package"
 				sh 'cp target/*.jar app.jar'
 			}
