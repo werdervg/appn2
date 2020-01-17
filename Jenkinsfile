@@ -1,4 +1,3 @@
-REGISTRY_URL = "registry.mydomain.com:5000"
 GIT_SOURCE = "https://github.com/werdervg/start.git"
 node {
 	def mvnHome
@@ -20,6 +19,7 @@ node {
 	}
 	stage('Build Docker Image') {
 			echo "Initializing workflow"
+			sh 'REGISTRY_URL=registry.mydomain.com:5000'
 			sh 'docker-compose --project-name $JOB_NAME build && echo Finished || exit 1'
 			sh 'docker login https://"$REGISTRY_URL"'
 			sh 'docker tag "$JOB_NAME"_app:latest $REGISTRY_URL/"$JOB_NAME"_app:latest'
