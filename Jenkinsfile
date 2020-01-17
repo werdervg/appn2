@@ -21,8 +21,7 @@ agent none
 		stage('Build Docker Image') {
 			steps {
 				echo "Initializing workflow"
-				git https://github.com/werdervg/prod.git
-                sh 'cp target/*.jar prod/'
+			        sh 'cp target/*.jar prod/'
 				def customImage = docker.build("my-image:${env.BUILD_ID}")
 			}
 		}
