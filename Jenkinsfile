@@ -1,7 +1,6 @@
 node {
 	def mvnHome
 	stage('Preparation') {
-		git 'https://github.com/werdervg/start.git'
 		mvnHome = tool 'maven 3.6.3'
 	}
 	stage('Build') {
