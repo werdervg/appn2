@@ -27,7 +27,7 @@ stages {
 	stage('Build With maven') {
 		steps {
 			script {
-//				sh "echo $JAVA_HOME"
+				sh "mv Dockerfile_$JavaVersion Dockerfile"
 				sh "$Maven_home/$MAV_VER/bin/mvn -Dmaven.test.failure.ignore clean package"
 				sh 'cp target/*.jar app.jar'
 			}
