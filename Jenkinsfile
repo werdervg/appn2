@@ -39,6 +39,7 @@ stages {
 				sh "sed -i s/#build/build/g docker-compose.yaml"
 				dockerImage = docker.build registry + "/$JOB_NAME" + ":latest"
 				sh "docker login https://$registry"
+				sh "docker tag $registry/$JOB_NAME:latest $JOB_NAME:latest"
 				sh "docker push $registry/$JOB_NAME:latest"
 				sh "docker tag $registry/$JOB_NAME:latest $registry/$JOB_NAME:v$BUILD_NUMBER"
 				sh "docker push $registry/$JOB_NAME:v$BUILD_NUMBER"
@@ -52,6 +53,7 @@ stages {
 		steps {
 			sh "sed -i s/build/#build/g docker-compose.yaml"
 			sh "sed -i s/#image/build/g docker-compose.yaml"
+			sh "sed -i s/JOB_NAME/${JOB_NAME}/g docker-compose.yaml"
 			sh "docker-compose up -d || exit 1"
 		}
 	}
@@ -60,6 +62,7 @@ stages {
 		steps{
 			sh "docker rmi -f $registry/$JOB_NAME:latest"
 			sh "docker rmi -f $registry/$JOB_NAME:v$BUILD_NUMBER"
+			sh "docker rmi -f $JOB_NAME:latest"
 			sh "rm -rf ./*"
 		}
 	}	
