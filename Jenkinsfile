@@ -17,13 +17,6 @@ pipeline {
 //		JAVA_HOME = '/var/jenkins_home/tools/Java/$JavaVersion'
 	}
 agent any
-	node{
-		stage('Prepering docker-teplate file') {
-			def text = readFile "docker-teplate.yaml"
-			text.replaceAll("app_name", "${JOB_NAME}")
-			text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
-		}
-	}
 	parameters {
 		choice(name: 'MavenVersion', choices: "${Maven_Version}", description: 'On this step you need select Maven Version')
 		choice(name: 'JavaVersion', choices: "${JAVA_Version}", description: 'On this step you need select JAVA Version')
@@ -54,6 +47,13 @@ stages {
         stage('Deploy docker image to ENV') {
 		when {
 			expression { params.Deploing == 'YES' }
+		}
+		steps('Prepering docker-teplate file') {
+			script {
+				def text = readFile "docker-teplate.yaml"
+				text.replaceAll("app_name", "${JOB_NAME}")
+				text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
+			}
 		}
 		steps {
 			sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
