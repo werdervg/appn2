@@ -1,10 +1,9 @@
 node{
 	stage ("Get Maven version") {
-//		sh 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/ > maven.txt'
-//		sh 'cat maven.txt'
-//		Maven_Version = readFile 'maven.txt'		
-        Maven_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/', returnStdout: true).trim()
-
+        	Maven_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/', returnStdout: true).trim()
+	}
+	stage ("Get JAVA version") {
+        	JAVA_Version = sh (script: 'ls /var/jenkins_home/tools/Java/', returnStdout: true).trim()
 	}
 }
 pipeline {
@@ -14,11 +13,13 @@ pipeline {
 		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
 		MAV_VER = '$MavenVersion'
+		JAVA_VER = '$JavaVersion'
 	}
 agent any
 	parameters {
 		choice(name: 'MavenVersion', choices: "${Maven_Version}", description: 'On this step you need select Maven Version')
-		choice(name: 'Deploing', choices: "YES\nNO", description: 'Option for allow/decline deploy to ENV')
+		choice(name: 'JavaVersion', choices: "${JAVA_Version}", description: 'On this step you need select JAVA Version')
+		choice(name: 'Deploing', choices: "NO\nYES", description: 'Option for allow/decline deploy to ENV')
 	}
 stages {
 	stage('Build With maven') {
