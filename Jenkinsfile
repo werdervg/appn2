@@ -25,7 +25,6 @@ stages {
 	stage('Build With maven') {
 		steps {
 			script {
-				sh "echo $MAV_VER"
 				sh "$Maven_home/$MAV_VER/bin/mvn -Dmaven.test.failure.ignore clean package"
 				sh 'cp target/*.jar app.jar'
 			}
@@ -42,7 +41,6 @@ stages {
 			}
 		}
 	}
-
 	stage('Remove Unused docker image') {
 		steps{
 			sh "docker rmi -f $registry/$JOB_NAME:latest"
