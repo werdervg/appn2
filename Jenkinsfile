@@ -2,6 +2,7 @@ REGISTRY_URL = "registry.mydomain.com:5000"
 GIT_SOURCE = "https://github.com/werdervg/start.git"
 node {
 	def mvnHome
+	def REGISTRY_URL
 	stage('Preparation') {
 		sh 'rm -rf ./*'
 		git url: GIT_SOURCE
