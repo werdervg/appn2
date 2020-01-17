@@ -15,7 +15,7 @@ pipeline {
 		MAV_VER = '$MavenVersion'
 		JAVA_VER = '$JavaVersion'
 //		JAVA_HOME = '/var/jenkins_home/tools/Java/$JavaVersion'
-		replace_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
+		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 	}
 agent any
 	parameters {
@@ -50,12 +50,9 @@ stages {
 			expression { params.Deploing == 'YES' }
 		}
 		steps{
-			sh "echo $replace_path"
 			sh "sed -i s/app_name/$JOB_NAME/g docker-teplate.yaml"
-//			sh "sed -i s/image_location/$replace_path/g docker-teplate.yaml"
-//			def text = readFile "docker-teplate.yaml"
-//			text.replaceAll("app_name", "${JOB_NAME}")
-//			text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
+			sh "sed -i s/image_location/$replace_registry_path/g docker-teplate.yaml"
+
 		}
 	}
 //	stage('Deploing image to ENV') {
