@@ -52,8 +52,9 @@ stages {
 		}
 		steps {
 			sh "sed -i s/build/#build/g docker-compose.yaml"
-			sh "sed -i s/#image/build/g docker-compose.yaml"
+			sh "sed -i s/#image/image/g docker-compose.yaml"
 			sh "sed -i s/JOB_NAME/${JOB_NAME}/g docker-compose.yaml"
+			sh "sed -i s/APP_NAME/${JOB_NAME}/g docker-compose.yaml"
 			sh "docker-compose up -d || exit 1"
 		}
 	}
