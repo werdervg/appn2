@@ -3,9 +3,8 @@ node{
 //		sh 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/ > maven.txt'
 //		sh 'cat maven.txt'
 //		Maven_Version = readFile 'maven.txt'		
-    dir('/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/') {
         Maven_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/', returnStdout: true).trim()
-    }
+
 	}
 }
 pipeline {
