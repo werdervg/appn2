@@ -11,11 +11,12 @@ node {
 		} else {
 			bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package/)
 		}
+		sh 'cp target/*.jar app.jar'
 	}
 }
 	stage('Build Docker Image') {
 			echo "Initializing workflow"
-			sh 'docker-compose --project-name build  && echo "Build Finished" || exit 1'
+			sh 'docker-compose build  && echo "Build Finished" || exit 1'
 			sh 'docker login https://registry.mydomain.com:5000'
 	}
 }
