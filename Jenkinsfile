@@ -10,7 +10,7 @@ pipeline {
 		registry = 'registry.mydomain.com:5000'
 		registryCredential = 'admin'
 		dockerImage = ''
-		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/'
+		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
 	}
 agent any
