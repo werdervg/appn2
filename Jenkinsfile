@@ -1,14 +1,18 @@
-REGISTRY_URL = "registry.mydomain.com:5000"
-GIT_SOURCE = "https://github.com/werdervg/start.git"
-node {
-	def mvnHome
-	def REGISTRY_URL
-	def GIT_SOURCE
-	stage('Preparation') {
-		sh 'rm -rf ./*'
-		git url: GIT_SOURCE
-		mvnHome = tool 'maven 3.6.3'
+pipeline {
+agent {
+	REGISTRY_URL = "registry.mydomain.com:5000"
+	GIT_SOURCE = "https://github.com/werdervg/start.git"
+	node {
+		def mvnHome
+		def GIT_SOURCE
+		stage('Preparation') {
+			sh 'rm -rf ./*'
+			git url: GIT_SOURCE
+			mvnHome = tool 'maven 3.6.3'
+		}
 	}
+}
+stages {
 	stage('Build') {
 		withEnv(["MVN_HOME=$mvnHome"]) {
 			if (isUnix()) {
@@ -33,4 +37,5 @@ node {
 //			sh 'docker rmi -f "$REGISTRY_URL"/"$JOB_NAME"_app:v$BUILD_NUMBER'
 //			sh 'docker rmi -f "$REGISTRY_URL"/"$JOB_NAME"_app:latest'
 //	}
+}
 }
