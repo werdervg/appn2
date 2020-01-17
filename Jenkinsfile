@@ -18,7 +18,10 @@ agent any
     choice(
         name: 'MavenVersion',
         choices: "${Maven_Version}",
-        description: 'On this step you need select Maven Version' )
+        description: 'On this step you need select Maven Version';
+        name: 'Deploing',
+        choices: "YES\NO",
+        description: 'Option for allow/decline deploy to ENV' )
 	}
 stages {
 	stage('Build With maven') {
