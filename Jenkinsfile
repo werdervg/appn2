@@ -15,7 +15,7 @@ pipeline {
 	}
 agent any
 	parameters {
-		choice(name: 'MavenVersion', choices: "${Maven_Version}", description: 'On this step you need select Maven Version'),
+		choice(name: 'MavenVersion', choices: "${Maven_Version}", description: 'On this step you need select Maven Version')
 		choice(name: 'Deploing', choices: "YES\NO", description: 'Option for allow/decline deploy to ENV')
 	}
 stages {
