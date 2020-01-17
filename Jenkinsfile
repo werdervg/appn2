@@ -44,19 +44,26 @@ stages {
 		}
 	}
 
-        stage('Deploy docker image to ENV') {
+        stage('Prepering docker-teplate file') {
 		when {
 			expression { params.Deploing == 'YES' }
 		}
-		steps('Prepering docker-teplate file') {
+		steps{
 			script {
 				def text = readFile "docker-teplate.yaml"
 				text.replaceAll("app_name", "${JOB_NAME}")
 				text.replaceAll("image_location", "${registry}/${JOB_NAME}:v${BUILD_NUMBER}")
 			}
 		}
+	}
+	stage('Deploing image to ENV') {
+		when {
+			expression { params.Deploing == 'YES' }
+		}
 		steps {
-			sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
+			script {			
+				sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
+			}		
 		}
 	}
 	
