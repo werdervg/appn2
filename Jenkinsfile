@@ -2,7 +2,7 @@ node {
 	def mvnHome
 	stage('Preparation') {
 		sh 'rm -rf ./*'
-		git clone 'https://github.com/werdervg/start.git'
+		git 'https://github.com/werdervg/start.git'
 		mvnHome = tool 'maven 3.6.3'
 	}
 	stage('Build') {
