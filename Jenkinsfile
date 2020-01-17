@@ -15,8 +15,13 @@ node {
       }
    }
    stage('Build Docker Image') {
-      git https://github.com/werdervg/prod.git
-      sh 'cp target/*.jar prod/'
-      def customImage = docker.build("my-image:${env.BUILD_ID}")
+        steps {
+				echo "Initializing workflow"
+				git https://github.com/werdervg/prod.git
+            sh 'cp target/*.jar prod/'
+			}
+        steps {
+           def customImage = docker.build("my-image:${env.BUILD_ID}")      
+        }
    }
    }
