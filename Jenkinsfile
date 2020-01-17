@@ -36,6 +36,7 @@ stages {
 	stage('Building image') {
 		steps{
 			script {
+				sh "sed -i s/#build/build/g docker-compose.yaml"
 				dockerImage = docker.build registry + "/$JOB_NAME" + ":latest"
 				sh "docker login https://$registry"
 				sh "docker push $registry/$JOB_NAME:latest"
@@ -44,14 +45,16 @@ stages {
 			}
 		}
 	}
-//	stage('Deploing image to ENV') {
-//		when {
-//			expression { params.Deploing == 'YES' }
-//		}
-//		steps {
-//			sh "docker-compose -f docker-teplate.yaml up -d || exit 1"
-//		}
-//	}
+	stage('Deploing image to ENV') {
+		when {
+			expression { params.Deploing == 'YES' }
+		}
+		steps {
+			sh "sed -i s/build/#build/g docker-compose.yaml"
+			sh "sed -i s/#image/build/g docker-compose.yaml"
+			sh "docker-compose up -d || exit 1"
+		}
+	}
 	
 	stage('Remove Unused docker image') {
 		steps{
