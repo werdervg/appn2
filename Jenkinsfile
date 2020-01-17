@@ -5,7 +5,6 @@ node {
 	def REGISTRY_URL
 	def GIT_SOURCE
 	stage('Preparation') {
-
 		sh 'rm -rf ./*'
 		git url: GIT_SOURCE
 		mvnHome = tool 'maven 3.6.3'
@@ -18,8 +17,8 @@ node {
 			bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package/)
 		}
 		sh 'cp target/*.jar app.jar'
+		}
 	}
-}
 	stage('Build Docker Image') {
 			echo "Initializing workflow"
 			sh docker-compose --project-name $JOB_NAME build  && echo "Build Finished" || exit 1
