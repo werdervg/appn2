@@ -23,10 +23,10 @@ agent any
 		JAVA_VER = '$JavaVersion'
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 	}
-//	tools {
-//		maven $MAV_VER
-//		jdk $JAVA_VER
-//	}
+	tools {
+		maven ${params.MavenVersion}
+		jdk ${params.JavaVersion}
+	}
 stages {
 	stage('Build With maven') {
 		steps {
