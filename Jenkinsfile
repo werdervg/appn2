@@ -24,8 +24,8 @@ agent any
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 	}
 	tools {
-		maven '$MAV_VER'
-		jdk '$JAVA_VER'
+		maven '$MavenVersion'
+		jdk '$JavaVersion'
 	}
 stages {
 	stage('Build With maven') {
