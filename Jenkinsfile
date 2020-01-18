@@ -23,19 +23,16 @@ agent any
 	}
 	tools {
 		maven "${params.MavenVersion}"
-//		jdk "${params.JavaVersion}"
+		jdk "${params.JavaVersion}"
 	}
 stages {
 	stage('Build With maven') {
 		steps {
-			withEnv(["JAVA_HOME=${tool 'Java6'}", "PATH=${tool 'Java6'}/bin:${env.PATH}"]) {
-				script {
-					sh "mv Dockerfile_$JavaVersion Dockerfile"
-					sh "mvn $Maven_OPTS clean package"
-					sh 'cp target/*.jar app.jar'
-				}
+			script {
+				sh "mv Dockerfile_$JavaVersion Dockerfile"
+				sh "mvn $Maven_OPTS clean package"
+				sh 'cp target/*.jar app.jar'
 			}
-
 		}
 	}
 	stage('Building image') {
