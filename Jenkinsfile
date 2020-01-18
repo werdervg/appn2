@@ -15,10 +15,8 @@ pipeline {
 		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		MAV_VER = '$MavenVersion'
 		JAVA_VER = '$JavaVersion'
-		env.JAVA_HOME = '/var/jenkins_home/tools/hudson.model.JDK/$JavaVersion'
+		JAVA_HOME = '/var/jenkins_home/tools/hudson.model.JDK/$JavaVersion'
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
-//		env.JAVA_HOME="${tool '$JavaVersion'}"
-		env.PATH="${env.JAVA_HOME}/bin:${env.PATH}"
 	}
 agent any
 	parameters {
@@ -30,7 +28,7 @@ stages {
 	stage('Build With maven') {
 		steps {
 			script {
-				sh "echo $env.JAVA_HOME"
+				sh "env.PATH="$JAVA_HOME/bin:${env.PATH}""
 				sh "mv Dockerfile_$JavaVersion Dockerfile"
 				sh "$Maven_home/$MAV_VER/bin/mvn -Dmaven.test.failure.ignore clean package"
 				sh 'cp target/*.jar app.jar'
