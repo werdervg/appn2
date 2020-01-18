@@ -25,14 +25,14 @@ agent any
 	}
 	tools {
 		maven $MAV_VER
-		jdk ${JavaVersion}
+		jdk $JAVA_VER
 	}
 stages {
 	stage('Build With maven') {
 		steps {
 			script {
-				sh "mv Dockerfile_$JavaVersion Dockerfile"
-				sh "$Maven_home/$MAV_VER/bin/mvn -Dmaven.test.failure.ignore clean package"
+				sh "mv Dockerfile_$JAVA_VER Dockerfile"
+				sh "mvn -Dmaven.test.failure.ignore clean package"
 				sh 'cp target/*.jar app.jar'
 			}
 		}
