@@ -7,9 +7,11 @@ node{
 	}
 }
 pipeline {
-	tools {
-		maven '$MavenVersion'
-		jdk '$JavaVersion'
+agent any
+	parameters {
+		choice(name: 'MavenVersion', choices: "${Maven_Version}", description: 'On this step you need select Maven Version')
+		choice(name: 'JavaVersion', choices: "${JAVA_Version}", description: 'On this step you need select JAVA Version')
+		choice(name: 'Deploing', choices: "NO\nYES", description: 'Option for allow/decline deploy to ENV')
 	}
 	environment {
 		registry = 'registry.mydomain.com:5000'
@@ -21,11 +23,9 @@ pipeline {
 		JAVA_VER = '$JavaVersion'
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 	}
-agent any
-	parameters {
-		choice(name: 'MavenVersion', choices: "${Maven_Version}", description: 'On this step you need select Maven Version')
-		choice(name: 'JavaVersion', choices: "${JAVA_Version}", description: 'On this step you need select JAVA Version')
-		choice(name: 'Deploing', choices: "NO\nYES", description: 'Option for allow/decline deploy to ENV')
+	tools {
+		maven '$MAV_VER'
+		jdk '$JAVA_VER'
 	}
 stages {
 	stage('Build With maven') {
