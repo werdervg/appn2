@@ -20,7 +20,7 @@ agent any
 		APP_EXTPORT = '30100'
 		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		MAV_VER = '$MavenVersion'
-		JAVA_VER = '$JavaVersion'
+//		JAVA_VER = '$JavaVersion'
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 	}
 	tools {
@@ -31,7 +31,7 @@ stages {
 	stage('Build With maven') {
 		steps {
 			script {
-				sh "mv Dockerfile_$JAVA_VER Dockerfile"
+				sh "mv Dockerfile_"${params.JavaVersion}" Dockerfile"
 				sh "mvn -Dmaven.test.failure.ignore clean package"
 				sh 'cp target/*.jar app.jar'
 			}
