@@ -19,6 +19,7 @@ agent any
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
 		APP_EXTPORT = '30100'
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
+		Maven_OPTS = '-Dmaven.test.failure.ignore'
 	}
 	tools {
 		maven "${params.MavenVersion}"
@@ -29,7 +30,7 @@ stages {
 		steps {
 			script {
 				sh "mv Dockerfile_$JavaVersion Dockerfile"
-				sh "mvn -Dmaven.test.failure.ignore clean package"
+				sh "mvn $Maven_OPTS clean package"
 				sh 'cp target/*.jar app.jar'
 			}
 		}
