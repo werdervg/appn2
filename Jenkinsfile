@@ -18,9 +18,6 @@ agent any
 		dockerImage = ''
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
 		APP_EXTPORT = '30100'
-		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
-		MAV_VER = '$MavenVersion'
-//		JAVA_VER = '$JavaVersion'
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 	}
 	tools {
