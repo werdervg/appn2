@@ -3,7 +3,7 @@ node{
         	Maven_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/', returnStdout: true).trim()
 	}
 	stage ("Get JAVA version") {
-        	JAVA_Version = sh (script: 'ls /var/jenkins_home/tools/Java/', returnStdout: true).trim()
+        	JAVA_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.model.JDK/', returnStdout: true).trim()
 	}
 }
 pipeline {
@@ -15,7 +15,7 @@ pipeline {
 		Maven_home = '/var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation'
 		MAV_VER = '$MavenVersion'
 		JAVA_VER = '$JavaVersion'
-//		JAVA_HOME = '/var/jenkins_home/tools/Java/$JavaVersion'
+		JAVA_HOME = '/var/jenkins_home/tools/hudson.model.JDK/$JavaVersion'
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 	}
 agent any
