@@ -24,7 +24,7 @@ agent any
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 	}
 	tools {
-		maven ${MavenVersion}
+		maven $MAV_VER
 		jdk ${JavaVersion}
 	}
 stages {
