@@ -60,8 +60,8 @@ stages {
 			sh "sed -i s/build/#build/g docker-compose.yaml"
 			sh "sed -i s/#image/image/g docker-compose.yaml"
 			sh "docker-compose up -d"
-			sh "scp ./docker-compose.yaml root@192.168.23.7:/root/"
-			sh "ssh root@192.168.23.7 'docker-compose up --build -d'"
+			sh "scp -o StrictHostKeyChecking=no -i .ssh/id_rsa ./docker-compose.yaml root@192.168.23.7:/root/"
+			sh "ssh -o StrictHostKeyChecking=no -i .ssh/id_rsa root@192.168.23.7 'docker-compose up --build -d'"
 		}
 	}
 	stage('Remove Unused docker image') {
