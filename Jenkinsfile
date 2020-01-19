@@ -57,22 +57,19 @@ stages {
 			expression { params.Deploing == 'YES' }
 		}
 		steps {
-			step {
-				sh "sed -i s/build/#build/g docker-compose.yaml"
-				sh "sed -i s/#image/image/g docker-compose.yaml"
-			}	sh "docker-compose up -d"
-			step {
-				script {
-					def remote = [:]
-					remote.name = 'CINODE1'
-					remote.host = 'cinode1.domain.com'
-					remote.user = 'user'
-					remote.password = 'password'
-					remote.allowAnyHosts = true
-					sshPut remote: remote, from: 'docker-compose.yaml', into: '.', override: true
-					sshCommand remote: remote, command: 'docker-compose up --build -d'
-				}
-			}	
+			sh "sed -i s/build/#build/g docker-compose.yaml"
+			sh "sed -i s/#image/image/g docker-compose.yaml"
+			sh "docker-compose up -d"
+			script {
+				def remote = [:]
+				remote.name = 'CINODE1'
+				remote.host = 'cinode1.domain.com'
+				remote.user = 'user'
+				remote.password = 'password'
+				remote.allowAnyHosts = true
+				sshPut remote: remote, from: 'docker-compose.yaml', into: '.', override: true
+				sshCommand remote: remote, command: 'docker-compose up --build -d'
+			}
 		}
 	}
 	stage('Remove Unused docker image') {
