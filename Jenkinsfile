@@ -40,7 +40,7 @@ stages {
 			}
 		}
 	}
-	stage('Building image') {
+	stage('Building image and preparing compose file') {
 		steps{
 			script {
 				sh "sed -i s/#build/build/g docker-compose.yaml"
@@ -53,25 +53,47 @@ stages {
 				sh "docker push $registry/$JOB_NAME:v$BUILD_NUMBER"
 				sh "docker tag $registry/$JOB_NAME:v$BUILD_NUMBER $registry/$JOB_NAME:latest"
 				sh "docker push $registry/$JOB_NAME:latest"
+				sh "sed -i s/build/#build/g docker-compose.yaml"
+				sh "sed -i s/#image/image/g docker-compose.yaml"
 			}
 		}
 	}
-	stage('Deploing image to ENV') {
+	stage('Deploing image to STAGE ENV') {
 		when { 
 			anyOf { 
 				expression { params.Deploing == 'YES' }; 
 				expression { params.ENVIRONMENT == 'STAGE' }
 			}
 		}
-//		when {
-//			expression { params.Deploing == 'YES' }
-//		}
 		steps {
-			sh "sed -i s/build/#build/g docker-compose.yaml"
-			sh "sed -i s/#image/image/g docker-compose.yaml"
 			sh "docker-compose up -d"
-			sh "scp -o StrictHostKeyChecking=no -i .ssh/id_rsa ./docker-compose.yaml root@$STAGE:/root/"
-			sh "ssh -o StrictHostKeyChecking=no -i .ssh/id_rsa root@$STAGE 'docker-compose up --build -d'"
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$STAGE:/root/"
+			sh "ssh -o StrictHostKeyChecking=no root@$STAGE 'docker-compose up --build -d'"
+		}
+	}
+	stage('Deploing image to TEST ENV') {
+		when { 
+			anyOf { 
+				expression { params.Deploing == 'YES' }; 
+				expression { params.ENVIRONMENT == 'TEST' }
+			}
+		}
+		steps {
+			sh "docker-compose up -d"
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$TEST:/root/"
+			sh "ssh -o StrictHostKeyChecking=no root@$TEST 'docker-compose up --build -d'"
+		}
+	}
+	stage('Deploing image to PROD ENV') {
+		when { 
+			anyOf { 
+				expression { params.Deploing == 'YES' }; 
+				expression { params.ENVIRONMENT == 'PROD' }
+			}
+		}
+		steps {
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$PROD:/root/"
+			sh "ssh -o StrictHostKeyChecking=no root@$PROD 'docker-compose up --build -d'"
 		}
 	}
 	stage('Remove Unused docker image') {
