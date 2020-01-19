@@ -3,9 +3,9 @@ node{
 		Maven_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/', returnStdout: true).trim()
 		JAVA_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.model.JDK/', returnStdout: true).trim()
 	}
-//	stage ("Get JAVA version") {
-//		JAVA_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.model.JDK/', returnStdout: true).trim()
-//	}
+	stage ("Get JAVA version") {
+		JAVA_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.model.JDK/', returnStdout: true).trim()
+	}
 }
 pipeline {
 agent any
@@ -42,13 +42,13 @@ stages {
 				sh "sed -i s/#build/build/g docker-compose.yaml"
 				sh "sed -i s/JOB_NAME/${JOB_NAME}/g docker-compose.yaml"
 				sh "sed -i s/APP_NAME/${JOB_NAME}/g docker-compose.yaml"
-				sh "sed -i s/APP_EXTPORT/${APP_EXTPORT}/g docker-compose.yaml"				
+				sh "sed -i s/APP_EXTPORT/${APP_EXTPORT}/g docker-compose.yaml"
+				sh "sed -i s/REGISTRY_NAME/${registry}/g docker-compose.yaml"
 				dockerImage = docker.build registry + "/$JOB_NAME" + ":v$BUILD_NUMBER"
 				sh "docker login https://$registry"
 				sh "docker push $registry/$JOB_NAME:v$BUILD_NUMBER"
 				sh "docker tag $registry/$JOB_NAME:v$BUILD_NUMBER $registry/$JOB_NAME:latest"
 				sh "docker push $registry/$JOB_NAME:latest"
-				sh "docker tag $registry/$JOB_NAME:latest $JOB_NAME:latest"
 			}
 		}
 	}
@@ -61,27 +61,24 @@ stages {
 			sh "sed -i s/#image/image/g docker-compose.yaml"
 			sh "docker-compose up -d"
 		}
+		steps {
+			script {
+				def remote = [:]
+				remote.name = 'CINODE1'
+				remote.host = 'cinode1.domain.com'
+				remote.user = 'user'
+				remote.password = 'password'
+				remote.allowAnyHosts = true
+				sshPut remote: remote, from: 'docker-compose.yaml', into: '.', override: true
+				sshCommand remote: remote, command: 'docker-compose up --build -d'
+			}
+		}
 	}
-	
 	stage('Remove Unused docker image') {
 		steps{
 			sh "docker rmi -f $registry/$JOB_NAME:latest"
 			sh "docker rmi -f $registry/$JOB_NAME:v$BUILD_NUMBER"
 			sh "rm -rf ./*"
-		}
-	}
-	stage('SSH into the server') {
-		steps {
-			script {
-				def remote = [:]
-				remote.name = '...'
-				remote.host = '...'
-				remote.user = '...'
-				remote.password = '...'
-				remote.allowAnyHosts = true
-				writeFile file: 'abc.sh', text: 'ls -lrt'
-				sshPut remote: remote, from: 'abc.sh', into: '.'
-			}
 		}
 	}
 }
