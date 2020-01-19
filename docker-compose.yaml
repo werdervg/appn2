@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     container_name: JOB_NAME_app
-    #image: JOB_NAME:latest
+    #image: REGISTRY_NAME/JOB_NAME:latest
     #build: .
     restart: always
     ports:
