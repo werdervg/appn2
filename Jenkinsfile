@@ -60,38 +60,39 @@ stages {
 	}
 	stage('Deploing image to STAGE ENV') {
 		when { 
-			anyOf { 
+			allOf { 
 				expression { params.Deploing == 'YES' }; 
 				expression { params.ENVIRONMENT == 'STAGE' }
 			}
 		}
 		steps {
-			sh "docker-compose up -d"
+			sh "echo DEPLOIIIIIIIIIIIIIIIG  TO STAGE"
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$STAGE:/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@$STAGE 'docker-compose up --build -d'"
 		}
 	}
 	stage('Deploing image to TEST ENV') {
 		when { 
-			anyOf { 
+			allOf { 
 				expression { params.Deploing == 'YES' }; 
 				expression { params.ENVIRONMENT == 'TEST' }
 			}
 		}
 		steps {
-			sh "docker-compose up -d"
+			sh "echo DEPLOIIIIIIIIIIIIIIIG  TO TEST"
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$TEST:/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@$TEST 'docker-compose up --build -d'"
 		}
 	}
 	stage('Deploing image to PROD ENV') {
 		when { 
-			anyOf { 
+			allOf { 
 				expression { params.Deploing == 'YES' }; 
 				expression { params.ENVIRONMENT == 'PROD' }
 			}
 		}
 		steps {
+			sh "echo DEPLOIIIIIIIIIIIIIIIG  TO PROD"
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$PROD:/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@$PROD 'docker-compose up --build -d'"
 		}
