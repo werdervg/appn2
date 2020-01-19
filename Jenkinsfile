@@ -69,6 +69,20 @@ stages {
 			sh "docker rmi -f $registry/$JOB_NAME:v$BUILD_NUMBER"
 			sh "rm -rf ./*"
 		}
-	}	
+	}
+	stage('SSH into the server') {
+		steps {
+			script {
+				def remote = [:]
+				remote.name = '...'
+				remote.host = '...'
+				remote.user = '...'
+				remote.password = '...'
+				remote.allowAnyHosts = true
+				writeFile file: 'abc.sh', text: 'ls -lrt'
+				sshPut remote: remote, from: 'abc.sh', into: '.'
+			}
+		}
+	}
 }
 }
