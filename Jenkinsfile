@@ -13,8 +13,12 @@ agent any
 		choice(name: 'MavenVersion', choices: "${Maven_Version}", description: 'On this step you need select Maven Version')
 		choice(name: 'JavaVersion', choices: "${JAVA_Version}", description: 'On this step you need select JAVA Version')
 		choice(name: 'Deploing', choices: "NO\nYES", description: 'Option for allow/decline deploy to ENV')
+		choice(name: 'ENVIRONMENT', choices: "STAGE\nTEST\nPROD", description: 'Please select ENV server for deploy you APP')
 	}
 	environment {
+		STAGE = '192.168.23.7'
+		TEST = '192.168.23.7'
+		PROD = '192.168.23.7'
 		registry = 'registry.domain.com:5000'
 		dockerImage = ''
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
@@ -53,15 +57,21 @@ stages {
 		}
 	}
 	stage('Deploing image to ENV') {
-		when {
-			expression { params.Deploing == 'YES' }
+		when { 
+			anyOf { 
+				expression { params.Deploing == 'YES' }; 
+				expression { params.ENVIRONMENT == 'STAGE' }
+			}
 		}
+//		when {
+//			expression { params.Deploing == 'YES' }
+//		}
 		steps {
 			sh "sed -i s/build/#build/g docker-compose.yaml"
 			sh "sed -i s/#image/image/g docker-compose.yaml"
 			sh "docker-compose up -d"
-			sh "scp -o StrictHostKeyChecking=no -i .ssh/id_rsa ./docker-compose.yaml root@192.168.23.7:/root/"
-			sh "ssh -o StrictHostKeyChecking=no -i .ssh/id_rsa root@192.168.23.7 'docker-compose up --build -d'"
+			sh "scp -o StrictHostKeyChecking=no -i .ssh/id_rsa ./docker-compose.yaml root@$STAGE:/root/"
+			sh "ssh -o StrictHostKeyChecking=no -i .ssh/id_rsa root@$STAGE 'docker-compose up --build -d'"
 		}
 	}
 	stage('Remove Unused docker image') {
