@@ -15,7 +15,7 @@ agent any
 		choice(name: 'Deploing', choices: "NO\nYES", description: 'Option for allow/decline deploy to ENV')
 	}
 	environment {
-		registry = 'registry.mydomain.com:5000'
+		registry = 'registry.domain.com:5000'
 		dockerImage = ''
 		GIT_SOURCE = 'https://github.com/werdervg/start.git'
 		APP_EXTPORT = '30100'
