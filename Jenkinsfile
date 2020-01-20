@@ -44,8 +44,8 @@ stages {
 		rtServer (
 			id: 'Artifactory-1',
 			url: 'http://ciserver.domain.com:8090/artifactory',
-			credentialsId: 'firstrepo'
-			bypassProxy: false
+			credentialsId: 'firstrepo',
+			bypassProxy: false,
 			timeout = 300
 		)
 		rtUpload (
