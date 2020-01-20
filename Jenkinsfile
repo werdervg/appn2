@@ -46,8 +46,9 @@ stages {
 	}
 	stage('push_to_Artifactory') {
 		steps {
-			rtServer = Artifactory.newServer url: artifactoryServerAddress, credentialsId: 'firstrepo'
-			rtUpload (serverId: 'Artifactory-1',
+			script{
+				rtServer = Artifactory.newServer url: artifactoryServerAddress, credentialsId: 'firstrepo'
+				rtUpload (serverId: 'Artifactory-1',
 				spec: '''{
 					"files": [
 						{
@@ -58,6 +59,7 @@ stages {
 				}''',
 				buildName: 'holyFrog',
 				buildNumber: '42')
+			}
 		}	
 	}
 	stage('Building image and preparing compose file') {
