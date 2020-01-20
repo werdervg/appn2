@@ -42,15 +42,11 @@ stages {
 	}
 	stage('push_to_Artifactory') {
 		steps {
-			rtServer (
-				id: 'Artifactory-1',
-				url: 'http://ciserver.domain.com:8090/artifactory',
+			rtServer (id: 'Artifactory-1',
+				url: 'http://192.168.23.6:8090/artifactory',
 				credentialsId: 'firstrepo',
-				bypassProxy: false,
-				timeout = 300
-			)
-			rtUpload (
-				serverId: 'Artifactory-1',
+				timeout = 300)
+			rtUpload (serverId: 'Artifactory-1',
 				spec: '''{
 					"files": [
 						{
@@ -60,8 +56,7 @@ stages {
 					]
 				}''',
 				buildName: 'holyFrog',
-				buildNumber: '42'
-			)
+				buildNumber: '42')
 		}	
 	}
 	stage('Building image and preparing compose file') {
