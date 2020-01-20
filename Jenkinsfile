@@ -56,12 +56,12 @@ stages {
 					"files": [
 						{
 						"pattern": "target/*.jar",
-						"target": "firstrepo/"
+						"target": "$JOB_NAME/"
 						}
 					]
 					}''',
-					buildName: 'holyFrog',
-					buildNumber: '42')
+					buildName: '$JOB_NAME',
+					buildNumber: '$BUILD_NUMBER')
 			}
 		}	
 	}
