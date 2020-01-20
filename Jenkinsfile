@@ -45,7 +45,7 @@ stages {
 			script{
 				rtServer (
 					id: 'Artifactory-1',
-					url: 'http://192.168.23.6:8090/artifactory',
+					url: 'http://artifactory:8081/artifactory',
 					credentialsId: 'firstrepo'
 					)
 				rtUpload (
