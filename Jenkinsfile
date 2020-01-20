@@ -46,7 +46,9 @@ stages {
 				rtServer (
 					id: 'Artifactory-1',
 					url: 'http://artifactory:8081/artifactory',
-					credentialsId: 'firstrepo'
+					username: 'publisheruser',
+					password: 'pa@sswo2rd1'
+//					credentialsId: 'firstrepo'
 					)
 				rtUpload (
 					serverId: 'Artifactory-1',
