@@ -42,17 +42,17 @@ stages {
 	}
 	stage('push_to_Artifactory') {
 		def server = Artifactory.server 'Artifactory'
-		url: 'http://artfact_URL', username: 'userid', password: 'swd'
+		url: 'http://192.168.23.6:8090', credentialsId: 'firstrepo'
 		def uploadSpec = 
 				"""{
 					"files": [
 						{
 							"pattern": "*/target/*.jar",
-							"target": "SCA_Test"
+							"target": "firstrepo"
 						},
 						{
 							"pattern": "*/target/*.ear",
-							"target": "SCA_Test"
+							"target": "firstrepo"
 						}
 						]
 				}"""
