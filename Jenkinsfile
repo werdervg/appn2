@@ -25,6 +25,10 @@ agent any
 		APP_EXTPORT = '30100'
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 		Maven_OPTS = '-Dmaven.test.failure.ignore'
+        rtServer  = ''
+        rtGradle  = ''
+        buildInfo = ''
+        artifactoryServerAddress = 'http://192.168.23.6:8090/artifactory'
 	}
 	tools {
 		maven "${params.MavenVersion}"
@@ -42,10 +46,7 @@ stages {
 	}
 	stage('push_to_Artifactory') {
 		steps {
-			rtServer (id: 'Artifactory-1',
-				url: 'http://192.168.23.6:8090/artifactory',
-				credentialsId: 'firstrepo',
-				timeout = 300)
+			rtServer = Artifactory.newServer url: artifactoryServerAddress, credentialsId: 'firstrepo'
 			rtUpload (serverId: 'Artifactory-1',
 				spec: '''{
 					"files": [
