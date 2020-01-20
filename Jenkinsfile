@@ -44,22 +44,22 @@ stages {
 		steps {
 			script{
 				rtServer (
-					id: 'Artifactory-1',
-					url: 'http://192.168.23.6:8090/artifactory',
-    credentialsId: 'firstrepo',
-    timeout = 300
-)
-				rtUpload (serverId: 'Artifactory-1',
-				spec: '''{
+					'id': {'Artifactory-1'},
+					'url': {'http://192.168.23.6:8090/artifactory'},
+					'credentialsId': {'firstrepo'}
+					)
+				rtUpload (
+					'serverId': {'Artifactory-1'},
+					'spec': '''{
 					"files": [
 						{
 						"pattern": "bazinga/*froggy*.zip",
 						"target": "firstrepo/"
 						}
 					]
-				}''',
-				buildName: 'holyFrog',
-				buildNumber: '42')
+					}''',
+					'buildName': {'holyFrog'},
+					'buildNumber': {'42'})
 			}
 		}	
 	}
