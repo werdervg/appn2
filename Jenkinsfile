@@ -51,7 +51,7 @@ stages {
 				rtUpload (
 					serverId: 'Artifactory-1',
 					spec: '''{
-					files: [
+					"files": [
 						{
 						"pattern": "target/*.jar",
 						"target": "firstrepo/"
