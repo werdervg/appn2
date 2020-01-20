@@ -41,25 +41,26 @@ stages {
 		}
 	}
 	stage('push_to_Artifactory') {
-		def server = Artifactory.server 'Artifactory'
-		url: 'http://192.168.23.6:8090', credentialsId: 'firstrepo'
-		def uploadSpec = 
-				"""{
-					"files": [
-						{
-							"pattern": "*/target/*.jar",
-							"target": "firstrepo"
-						},
-						{
-							"pattern": "*/target/*.ear",
-							"target": "firstrepo"
-						}
-						]
-				}"""
-		server.upload(uploadSpec)
-		def buildInfo = server.upload(uploadSpec)
-		buildInfo.append(buildInfo)
-		server.publishBuildInfo(buildInfo)
+		rtServer (
+			id: 'Artifactory-1',
+			url: 'http://ciserver.domain.com:8090/artifactory',
+			credentialsId: 'firstrepo'
+			bypassProxy: false
+			timeout = 300
+		)
+		rtUpload (
+			serverId: 'Artifactory-1',
+			spec: '''{
+				"files": [
+					{
+					"pattern": "bazinga/*froggy*.zip",
+					"target": "firstrepo/"
+					}
+				]
+			}''',
+			buildName: 'holyFrog',
+			buildNumber: '42'
+		)
 	}
 	stage('Building image and preparing compose file') {
 		steps{
