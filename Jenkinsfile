@@ -40,6 +40,27 @@ stages {
 			}
 		}
 	}
+	stage('push_to_Artifactory') {
+		def server = Artifactory.server 'Artifactory'
+		url: 'http://artfact_URL', username: 'userid', password: 'swd'
+		def uploadSpec = 
+				"""{
+					"files": [
+						{
+							"pattern": "*/target/*.jar",
+							"target": "SCA_Test"
+						},
+						{
+							"pattern": "*/target/*.ear",
+							"target": "SCA_Test"
+						}
+						]
+				}"""
+		server.upload(uploadSpec)
+		def buildInfo = server.upload(uploadSpec)
+		buildInfo.append(buildInfo)
+		server.publishBuildInfo(buildInfo)
+	}
 	stage('Building image and preparing compose file') {
 		steps{
 			script {
